@@ -1,20 +1,25 @@
-import player from './player_physics'
+import Player from './player_physics'
+import Players from './players'
+
+const player1 = new Player('arrow')
+const player2 = new Player('keys')
+Players.push(player1, player2)
 
 const $hello = document.getElementById('hello')
 
-function fixedTimestepRuntimeLoop() {
+function fixedTimestepRuntimeLoop () {
   // Compute stuff here
-  function update(step) {
-    player.update(step)
+  function update (step) {
+    Players.forEach((player) => player.update(step))
   }
 
   // Draw stuff here
-  function render(timePassed) {
-    player.render(timePassed)
+  function render (timePassed) {
+    Players.forEach((player) => player.render(timePassed))
     $hello.innerHTML = timePassed
   }
 
-  function timestamp() {
+  function timestamp () {
     return window.performance && window.performance.now ? window.performance.now() : new Date().getTime()
   }
 
@@ -25,12 +30,12 @@ function fixedTimestepRuntimeLoop() {
   let now
   let deltaTime = 0
 
-  function capSeconds(time) {
+  function capSeconds (time) {
     // ensure time passed doesn't exceed one second
     return Math.min(1, (time) / 1000)
   }
 
-  function runtime() {
+  function runtime () {
     now = timestamp()
 
     // recompute ∆time
