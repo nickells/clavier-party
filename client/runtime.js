@@ -16,7 +16,12 @@ function fixedTimestepRuntimeLoop () {
   // Draw stuff here
   function render (timePassed) {
     Players.forEach((player) => player.render(timePassed))
-    $hello.innerHTML = timePassed
+    $hello.innerHTML = `
+      <p>Player 1: ${Players[0].position.x} ${Players[0].position.y}</p>
+      <p>Player 2: ${Players[1].position.x} ${Players[1].position.y}</p>
+      <pre spacing="default">${JSON.stringify(Players[0].getEdges())}</pre>
+      <pre spacing="default">${JSON.stringify(Players[1].getEdges())}</pre>
+    `
   }
 
   function timestamp () {

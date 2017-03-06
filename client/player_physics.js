@@ -43,7 +43,7 @@ const getEdges = (position, size) => {
 
 class Player {
   constructor (controls) {
-    this.player === controls === 'keys' ? 1 : 2
+    this.player = controls === 'keys' ? 1 : 2
     this.position = {
       x: this.player === 1 ? 0 : 60,
       y: 0
@@ -128,7 +128,7 @@ class Player {
     this.position.y = Math.floor(this.position.y + (step * this.velocityY))
     this.position.x = Math.floor(this.position.x + (step * this.velocityX))
     this.velocityX = bound(this.velocityX + (step * this.accelerationX), -MAXDX, MAXDX)
-    this.velocityY = bound(this.velocityY + (step * this.accelerationY), -MAXDY, MAXDY)
+    this.velocityY = bound(this.velocityY - (step * this.accelerationY), -MAXDY, MAXDY)
 
     if ((wasleft && (this.velocityX > 0)) ||
       (wasright && (this.velocityX < 0))) {
@@ -136,16 +136,14 @@ class Player {
     }
 
     // don't fall through the ground, or others
-    if (this.velocityY >= 0) {
-      console.log(this.otherPlayer.getEdges(), this.getEdges())
-      debugger;
+    if (this.velocityY <= 0) {
       const isColliding = this.isColliding(this.otherPlayer.getEdges(), this.getEdges())
-      if (this.position.y > 0 || isColliding) {
+      if (this.position.y < 0 || isColliding) {
         this.velocityY = 0
-        this.falling = false
         this.jumping = false
+        this.falling = false
         if (isColliding) {
-          this.position.y = 0
+          this.position.y = this.otherPlayer.getEdges().topLeft.y
         } else {
           this.position.y = 0
         }
@@ -156,7 +154,7 @@ class Player {
   }
 
   render (time) {
-    this.$player.style.transform = `translate(${this.position.x}px, ${this.position.y}px)`
+    this.$player.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
   }
 
   isColliding (otherEdges, thisEdges) {
@@ -165,12 +163,11 @@ class Player {
         (thisEdges.topLeft.x >= otherEdges.topLeft.x && thisEdges.topLeft.x <= otherEdges.topRight.x)
         || (thisEdges.topRight.x <= otherEdges.topRight.x && thisEdges.topRight.x >= otherEdges.topLeft.x)
       )
-      && (this.position.y <= otherEdges.topLeft.y)
+      && (this.position.y <= otherEdges.topLeft.y + 1 && this.jumping === true)
     )
   }
 
   getEdges () {
-    console.log(this.player)
     const edges = {
       topLeft: {
         x: this.position.x,
