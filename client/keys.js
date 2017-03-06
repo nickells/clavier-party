@@ -6,7 +6,11 @@ const Keys = {
     40: 'down'
   },
 
-  actions: {
+  keydownActions: {
+
+  },
+
+  keyUpActions: {
 
   },
 
@@ -14,14 +18,24 @@ const Keys = {
     window.addEventListener('keydown', (e) => {
       const keyCode = e.which
       const key = this.map[keyCode]
-      if (this.actions[key]) this.actions[key]()
+      if (this.keydownActions[key]) this.keydownActions[key]()
     })
 
-    this.on = this.on.bind(this)
+    window.addEventListener('keyup', (e) => {
+      const keyCode = e.which
+      const key = this.map[keyCode]
+      if (this.keyUpActions[key]) this.keyUpActions[key]()
+    })
+
+    this.keydown = this.keydown.bind(this)
   },
 
-  on (key, func) {
-    this.actions[key] = func
+  keydown (key, func) {
+    this.keydownActions[key] = func
+  },
+
+  keyup (key, func) {
+    this.keyUpActions[key] = func
   }
 
 }

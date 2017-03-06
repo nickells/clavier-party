@@ -15,6 +15,10 @@ const player = {
     y: 0
   },
 
+  inputs: {
+
+  },
+
   getDOMElement () {
     return this.$player
   },
@@ -36,7 +40,9 @@ const player = {
   },
 
   jump () {
-    this.position.y += 10
+    const distance = 10 - this.jumpCounter
+    this.position.y += distance
+    console.log(this.position.y)
   },
 
   left () {
@@ -47,16 +53,50 @@ const player = {
     this.position.x += 10
   },
 
+  fall () {
+    const distance = this.jumpCounter - 10
+    this.position.y -= distance
+    console.log(this.position.y)
+  },
+
   init () {
-    this.jump = this.jump.bind(this)
-    this.left = this.left.bind(this)
-    this.right = this.right.bind(this)
-
-    Keys.on('left', this.left)
-    Keys.on('right', this.right)
-    Keys.on('up', this.jump)
-
+    ['left', 'right', 'up'].forEach(direction => {
+      Keys.keydown(direction, () => {
+        this.inputs[direction] = true
+      })
+      Keys.keyup(direction, () => {
+        this.inputs[direction] = false
+      })
+    })
     this.create()
+  },
+
+  // runtime methods
+  update (step) {
+    if (this.inputs.left) this.left()
+    if (this.inputs.right) this.right()
+    if (this.inputs.up) {
+      if (!this.isJumping) {
+        this.jumpCounter = 0
+        this.isJumping = true
+      }
+    }
+    if (this.isJumping) {
+      this.jumpCounter += 1
+      if (this.jumpCounter <= 10) {
+        this.jump()
+      } else if (this.jumpCounter > 10 && this.jumpCounter < 20) {
+        this.fall()
+      } else if (this.jumpCounter === 21) {
+        this.jumpCounter = 0
+        this.isJumping = false
+      }
+    }
+  },
+
+  render (time) {
+    this.$player.style.left = this.position.x
+    this.$player.style.bottom = this.position.y
   }
 }
 

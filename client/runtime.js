@@ -5,15 +5,12 @@ const $hello = document.getElementById('hello')
 function fixedTimestepRuntimeLoop() {
   // Compute stuff here
   function update(step) {
-    
+    player.update(step)
   }
 
   // Draw stuff here
   function render(timePassed) {
-    const { position } = player
-    const $player = player.getDOMElement
-    player.getDOMElement().style.left = position.x
-    player.getDOMElement().style.bottom = position.y
+    player.render(timePassed)
     $hello.innerHTML = timePassed
   }
 
