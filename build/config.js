@@ -8,7 +8,7 @@ const config = {
   },
   module: {
     rules: [
-      { test: /\.(js)$/ }
+      { test: /\.(js|html)$/ }
     ]
   }
 }
