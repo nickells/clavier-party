@@ -32,10 +32,6 @@ const player = {
 
   },
 
-  getDOMElement () {
-    return this.$player
-  },
-
   create () {
     this.$player = document.createElement('div')
     const styles = {
@@ -54,7 +50,7 @@ const player = {
 
   jump () {
     const frame = (JUMP_DURATION_TICKS / 2) - this.jumpCounter
-    this.position.y += frame * HEIGHT_ACCERATION
+    this.position.y += frame * (HEIGHT_ACCERATION + 1.0)
   },
 
   fall () {

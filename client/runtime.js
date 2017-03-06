@@ -1,4 +1,4 @@
-import player from './player'
+import player from './player_physics'
 
 const $hello = document.getElementById('hello')
 
