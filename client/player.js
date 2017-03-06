@@ -9,6 +9,19 @@ const applyStyles = ($elem, styles) => {
   return $elem
 }
 
+
+
+const TICKS_PER_SECOND = 60
+
+const HEIGHT_ACCERATION = 0.75
+const JUMP_DURATION_SECONDS = 0.6 // seconds
+const MOVEMENT_PIXELS_PER_SECOND = 500
+
+const JUMP_DURATION_TICKS = TICKS_PER_SECOND * JUMP_DURATION_SECONDS // ticks
+const MOVEMENT_SPEED = MOVEMENT_PIXELS_PER_SECOND / TICKS_PER_SECOND // px per tick
+
+const PLAYER_SIZE = 50 // px
+
 const player = {
   position: {
     x: 0,
@@ -27,8 +40,8 @@ const player = {
     this.$player = document.createElement('div')
     const styles = {
       display: 'inline-block',
-      width: '30px',
-      height: '30px',
+      width: `${PLAYER_SIZE}px`,
+      height: `${PLAYER_SIZE}px`,
       border: '1px solid black',
       position: 'absolute',
       left: 0,
@@ -40,24 +53,23 @@ const player = {
   },
 
   jump () {
-    const distance = 10 - this.jumpCounter
-    this.position.y += distance
-    console.log(this.position.y)
-  },
-
-  left () {
-    this.position.x -= 10
-  },
-
-  right () {
-    this.position.x += 10
+    const frame = (JUMP_DURATION_TICKS / 2) - this.jumpCounter
+    this.position.y += frame * HEIGHT_ACCERATION
   },
 
   fall () {
-    const distance = this.jumpCounter - 10
-    this.position.y -= distance
-    console.log(this.position.y)
+    const frame = this.jumpCounter - (JUMP_DURATION_TICKS / 2)
+    this.position.y -= frame * HEIGHT_ACCERATION
   },
+
+  left () {
+    this.position.x -= MOVEMENT_SPEED
+  },
+
+  right () {
+    this.position.x += MOVEMENT_SPEED
+  },
+
 
   init () {
     ['left', 'right', 'up'].forEach(direction => {
@@ -83,11 +95,11 @@ const player = {
     }
     if (this.isJumping) {
       this.jumpCounter += 1
-      if (this.jumpCounter <= 10) {
+      if (this.jumpCounter <= JUMP_DURATION_TICKS / 2) {
         this.jump()
-      } else if (this.jumpCounter > 10 && this.jumpCounter < 20) {
+      } else if (this.jumpCounter > JUMP_DURATION_TICKS / 2 && this.jumpCounter < JUMP_DURATION_TICKS) {
         this.fall()
-      } else if (this.jumpCounter === 21) {
+      } else if (this.jumpCounter === JUMP_DURATION_TICKS + 1) {
         this.jumpCounter = 0
         this.isJumping = false
       }
@@ -95,8 +107,7 @@ const player = {
   },
 
   render (time) {
-    this.$player.style.left = this.position.x
-    this.$player.style.bottom = this.position.y
+    this.$player.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
   }
 }
 
