@@ -163,7 +163,6 @@ class Player {
         this.velocityY = 0
         this.jumping = false
         this.falling = false
-        console.log(this.isColliding())
         if (isColliding) {
           console.log('colliding with on', this.sittingOnWhom)
           this.position.y = this.sittingOnWhom.getEdges().topLeft.y

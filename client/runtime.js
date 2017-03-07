@@ -43,11 +43,11 @@ ensureConnect().then(socket => {
     Players.removeIndex(idx)
   })
 
-  // setInterval(() => {
-  //   Players.getOthers().forEach(player => {
-  //     socket.emit('gather_position', socket.id, Players.user.position, player.id)
-  //   })
-  // }, 300)
+  setInterval(() => {
+    Players.getOthers().forEach(player => {
+      socket.emit('gather_position', socket.id, Players.user.position, player.id)
+    })
+  }, 300)
 })
 
 function fixedTimestepRuntimeLoop () {
