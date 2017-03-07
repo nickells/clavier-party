@@ -40,12 +40,14 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     let idx = 0
+    console.log(socket.id, 'has disconnected')
+    console.log(Players)
     for (let i = 0; i < Players.length; i++ ){
-      if (Players[i].id === socket.id){
+      if (Players[i].id === socket.id) {
         idx = i
       }
     }
-    Players.splice(idx)
+    Players.splice(idx, 1)
     socket.broadcast.emit('player_disconnect', socket.id)
   })
 })

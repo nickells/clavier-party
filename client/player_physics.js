@@ -59,6 +59,8 @@ class Player {
 
     }
 
+    this.destroy = this.destroy.bind(this)
+
     this.velocityX = 0
     this.velocityY = 0
     this.accelerationX = 0
@@ -161,8 +163,10 @@ class Player {
         this.velocityY = 0
         this.jumping = false
         this.falling = false
+        console.log(this.isColliding())
         if (isColliding) {
-          this.position.y = this.collidingWithWhom.getEdges().topLeft.y
+          console.log('colliding with on', this.sittingOnWhom)
+          this.position.y = this.sittingOnWhom.getEdges().topLeft.y
         } else {
           this.position.y = 0
         }
@@ -177,21 +181,20 @@ class Player {
   }
 
   isColliding () {
-
     let thisEdges = this.getEdges()
-    Players.forEach(otherPlayer => {
+    const sittingOnSomeone = Players.get().some(otherPlayer => {
       if (otherPlayer.id === this.id) return false
       let otherEdges = otherPlayer.getEdges()
       let colliding = (
         (thisEdges.topLeft.x >= otherEdges.topLeft.x && thisEdges.topLeft.x <= otherEdges.topRight.x) ||
         (thisEdges.topRight.x <= otherEdges.topRight.x && thisEdges.topRight.x >= otherEdges.topLeft.x)
-      ) &&
-        (this.position.y <= otherEdges.topLeft.y && this.position.y > otherEdges.bottomLeft.y)
+      ) && (this.position.y <= otherEdges.topLeft.y && this.position.y > otherEdges.bottomLeft.y)
       if (colliding) {
-        this.collidingWithWhom = otherPlayer
-      } else this.collidingWithWhom = undefined
+        this.sittingOnWhom = otherPlayer
+      } else this.sittingOnWhom = undefined
+      return this.sittingOnWhom
     })
-    return this.collidingWithWhom
+    return sittingOnSomeone
   }
 
   getEdges () {
