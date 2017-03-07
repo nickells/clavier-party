@@ -1,11 +1,19 @@
 const express = require('express')
-const path = require('path');
+const app = express()
+const path = require('path')
 
-const server = express()
+const server = require('http').createServer(app)
 
-server.use(express.static('dist'))
-server.get('/', (req, res) => {
+const io = require('socket.io')(server)
+
+io.on('connection', (...args) => {
+  console.log('new connection!')
+  console.log(args)
+})
+
+app.use(express.static('dist'))
+app.get('/', (req, res) => {
   res.sendFile(path.resolve('dist/index.html'));
 })
 
-server.listen('9000')
+server.listen(9000)

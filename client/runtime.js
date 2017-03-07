@@ -42,7 +42,6 @@ function fixedTimestepRuntimeLoop () {
 
   function runtime () {
     now = timestamp()
-
     // recompute ∆time
     deltaTime = deltaTime + capSeconds(now - lastTime)
 
