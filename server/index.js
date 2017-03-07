@@ -13,19 +13,15 @@ io.on('connection', (socket) => {
 
   // New player has connected
   socket.on('player_connected', (player)=> {
-    console.log('new player connect', socket.id)
     player.id = socket.id
     // Add player to index
     Players.push(player)
-    console.log(Players.length, 'players')
     // Tell everyone else that a player has connected
     socket.broadcast.emit('player_connected', player)
   })
 
   // A player is sending us its position to tell a new player
   socket.on('gather_position', (id, position, reconcilingFor) => {
-    console.log('position gathering for', id)
-    console.log('sending to ', reconcilingFor)
 
     // Update position of player inside Players collection
     Players.forEach(player => {
@@ -38,11 +34,9 @@ io.on('connection', (socket) => {
     socket.broadcast.to(reconcilingFor).emit('reconcile', id, position )
   })
 
-
   socket.on('player_input', (id, input, bool) => {
     socket.broadcast.emit('player_input', socket.id, input, bool )
   })
-  
 
   socket.on('disconnect', () => {
     let idx = 0
