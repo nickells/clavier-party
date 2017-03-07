@@ -50,7 +50,6 @@ class Player {
     } else if (controls === 'arrow') {
       this.player = 2
     } else this.player = 3
-    // this.player = controls === 'keys' ? 1 : 2
     this.position = position || {
       x: this.player + 30,
       y: 0
@@ -100,10 +99,6 @@ class Player {
 
     this.create()
 
-    // todo: this is bad!
-    // setTimeout(() => {
-    //   this.otherPlayer = this.player === 1 ? Players[0] : Players[1]
-    // }, 1)
   }
 
   create () {
@@ -217,7 +212,7 @@ class Player {
     return (edges)
   }
 
-  destroy() {
+  destroy () {
     this.$player.remove()
   }
 }
