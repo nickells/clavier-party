@@ -20,27 +20,6 @@ const applyStyles = ($elem, styles) => {
   return $elem
 }
 
-const getEdges = (position, size) => {
-  return {
-    topRight: {
-      x: position.x + size,
-      y: position.y + size
-    },
-    bottomRight: {
-      x: position.x + size,
-      y: position.y
-    },
-    bottomLeft: {
-      x: position.x,
-      y: position.y
-    },
-    topLeft: {
-      x: position.x,
-      y: position.x + size
-    }
-  }
-}
-
 class Player {
   constructor (controls) {
     this.player = controls === 'keys' ? 1 : 2
@@ -87,6 +66,7 @@ class Player {
     this.$player = document.createElement('div')
     const styles = {
       display: 'inline-block',
+      boxSizing: 'border-box',
       backgroundColor: this.color,
       width: `${this.size}px`,
       height: `${this.size}px`,
@@ -163,7 +143,7 @@ class Player {
         (thisEdges.topLeft.x >= otherEdges.topLeft.x && thisEdges.topLeft.x <= otherEdges.topRight.x)
         || (thisEdges.topRight.x <= otherEdges.topRight.x && thisEdges.topRight.x >= otherEdges.topLeft.x)
       )
-      && (this.position.y <= otherEdges.topLeft.y + 1 && this.jumping === true)
+      && (this.position.y <= otherEdges.topLeft.y && this.position.y > otherEdges.bottomLeft.y)
     )
   }
 
@@ -181,10 +161,10 @@ class Player {
       //   x: this.position.x + this.size,
       //   y: this.position.y
       // },
-      // bottomLeft: {
-      //   x: this.position.x,
-      //   y: this.position.y
-      // },
+      bottomLeft: {
+        x: this.position.x,
+        y: this.position.y
+      },
     }
     return (edges)
   }
