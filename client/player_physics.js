@@ -1,5 +1,6 @@
 import Keys from './keys'
 import Players from './players'
+import { ensureConnect } from './socket'
 
 const METER = 30
 const GRAVITY = METER * 9.8 * 6 // very exagerated gravity (6x)
@@ -23,14 +24,34 @@ const applyStyles = ($elem, styles) => {
 }
 
 class Player {
-  constructor (controls) {
+  constructor (id, position) {
+    this.id = id
+    this.isUser = id === 0
+    const controls = this.isUser ? 'arrow' : 'socket'
+
+    if (this.isUser) {
+      ensureConnect()
+      .then((socket) => {
+        socket.emit('player_connected', this)
+      })
+    } else {
+      ensureConnect()
+      .then((socket) => {
+        socket.on('player_input', (id, input, on) => {
+          if (id === this.id) {
+            this.inputs[input] = on
+          }
+        })
+      })
+    }
+
     if (controls === 'keys') {
       this.player = 1
     } else if (controls === 'arrow') {
       this.player = 2
     } else this.player = 3
     // this.player = controls === 'keys' ? 1 : 2
-    this.position = {
+    this.position = position || {
       x: this.player + 30,
       y: 0
     }
@@ -48,30 +69,41 @@ class Player {
     this.size = METER
 
     this.getEdges = this.getEdges.bind(this)
-    if (this.player !== 3) {
-      const directions = this.player === 1 ? ['left', 'right', 'up'] : ['A', 'D', 'W']
+    if (this.isUser) {
+      const directions = ['left', 'right', 'up']
       directions.forEach(direction => {
         Keys.keydown(direction, () => {
           this.inputs[direction] = true
+          if (this.isUser) {
+            ensureConnect()
+            .then(socket => {
+              console.log('emit')
+              socket.emit('player_input', this.id, direction, true)
+            })
+          }
         })
         Keys.keyup(direction, () => {
           this.inputs[direction] = false
+          if (this.isUser) {
+            ensureConnect()
+              .then(socket => {
+                socket.emit('player_input', this.id, direction, false)
+              })
+          }
         })
       })
     }
     const colors = {
       1: 'blue',
-      2: 'red',
-      3: 'white'
     }
     this.color = colors[this.player]
 
     this.create()
 
     // todo: this is bad!
-    setTimeout(() => {
-      this.otherPlayer = this.player === 1 ? Players[0] : Players[1]
-    }, 1)
+    // setTimeout(() => {
+    //   this.otherPlayer = this.player === 1 ? Players[0] : Players[1]
+    // }, 1)
   }
 
   create () {
@@ -175,6 +207,10 @@ class Player {
       }
     }
     return (edges)
+  }
+
+  destroy() {
+    this.$player.remove()
   }
 }
 

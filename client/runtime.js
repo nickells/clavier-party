@@ -1,12 +1,58 @@
 import Player from './player_physics'
-import Players from './players'
+// import Players from './players'
+const Players = []
+import { ensureConnect } from './socket'
 
-const player1 = new Player('arrow')
-const player2 = new Player('keys')
-const player3 = new Player('static')
-Players.push(player1, player2, player3)
+const player1 = new Player(0)
+// const player2 = new Player('keys')
+// const player3 = new Player('static')
 
-const $hello = document.getElementById('hello')
+Players.push(player1)
+
+
+function playersAlreadyContainsId(id){
+  Players.forEach(player => {
+    console.log(player.id, id)
+    if (player.id === id) {
+      console.log('match found, returning')
+      return true
+    }
+  })
+  return false
+}
+
+ensureConnect().then(socket => {
+  console.log('self connected. i am', socket.id)
+  // New player has connected
+  socket.on('player_connected', (player)=> {
+    // Add new player to local players reference
+    Players.push(new Player(player.id))
+    const thisId = socket.id
+    const thisPosition = player1.position
+    const reconcilingFor = player.id
+
+    // Gather own position and send to new player
+    socket.emit('gather_position', thisId, thisPosition, reconcilingFor)
+  })
+
+  // a player is telling us its position
+  socket.on('reconcile', (id, position) => {
+    Players.push(new Player(id, position))
+  })
+  
+
+  socket.on('player_disconnect', id => {
+
+    let idx = 0
+    for (let i = 0; i < Players.length; i++) {
+      if (Players[i].id === id) {
+        idx = i
+      }
+    }
+    Players[idx].destroy()
+    Players.splice(idx)
+  })
+})
 
 function fixedTimestepRuntimeLoop () {
   // Compute stuff here
@@ -17,12 +63,12 @@ function fixedTimestepRuntimeLoop () {
   // Draw stuff here
   function render (timePassed) {
     Players.forEach((player) => player.render(timePassed))
-    $hello.innerHTML = `
-      <p>Player 1: ${Players[0].position.x} ${Players[0].position.y}</p>
-      <p>Player 2: ${Players[1].position.x} ${Players[1].position.y}</p>
-      <pre spacing="default">${JSON.stringify(Players[0].getEdges())}</pre>
-      <pre spacing="default">${JSON.stringify(Players[1].getEdges())}</pre>
-    `
+    // $hello.innerHTML = `
+    //   <p>Player 1: ${Players[0].position.x} ${Players[0].position.y}</p>
+    //   <p>Player 2: ${Players[1].position.x} ${Players[1].position.y}</p>
+    //   <pre spacing="default">${JSON.stringify(Players[0].getEdges())}</pre>
+    //   <pre spacing="default">${JSON.stringify(Players[1].getEdges())}</pre>
+    // `
   }
 
   function timestamp () {
