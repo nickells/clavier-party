@@ -3,7 +3,8 @@ import Players from './players'
 
 const player1 = new Player('arrow')
 const player2 = new Player('keys')
-Players.push(player1, player2)
+const player3 = new Player('static')
+Players.push(player1, player2, player3)
 
 const $hello = document.getElementById('hello')
 
@@ -27,7 +28,6 @@ function fixedTimestepRuntimeLoop () {
   function timestamp () {
     return window.performance && window.performance.now ? window.performance.now() : new Date().getTime()
   }
-
 
   // Gameplay interval
   const step = 1 / 60

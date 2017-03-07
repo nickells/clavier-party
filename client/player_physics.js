@@ -9,6 +9,8 @@ const HORIZONTAL_ACCEL = MAXDX * 2 // horizontal acceleration -  take 1/2 second
 const FRICTION = MAXDX * 6 // horizontal friction  -  take 1/6 second to stop from maxdx
 const JUMP = METER * 1500 //
 
+const COLLISION = false
+
 function bound (x, min, max) {
   return Math.max(min, Math.min(max, x))
 }
@@ -22,9 +24,14 @@ const applyStyles = ($elem, styles) => {
 
 class Player {
   constructor (controls) {
-    this.player = controls === 'keys' ? 1 : 2
+    if (controls === 'keys') {
+      this.player = 1
+    } else if (controls === 'arrow') {
+      this.player = 2
+    } else this.player = 3
+    // this.player = controls === 'keys' ? 1 : 2
     this.position = {
-      x: this.player === 1 ? 0 : 60,
+      x: this.player + 30,
       y: 0
     }
 
@@ -41,18 +48,23 @@ class Player {
     this.size = METER
 
     this.getEdges = this.getEdges.bind(this)
-
-    const directions = this.player === 1 ? ['left', 'right', 'up'] : ['A', 'D', 'W']
-    this.color = this.player === 1 ? 'blue' : 'red'
-
-    directions.forEach(direction => {
-      Keys.keydown(direction, () => {
-        this.inputs[direction] = true
+    if (this.player !== 3) {
+      const directions = this.player === 1 ? ['left', 'right', 'up'] : ['A', 'D', 'W']
+      directions.forEach(direction => {
+        Keys.keydown(direction, () => {
+          this.inputs[direction] = true
+        })
+        Keys.keyup(direction, () => {
+          this.inputs[direction] = false
+        })
       })
-      Keys.keyup(direction, () => {
-        this.inputs[direction] = false
-      })
-    })
+    }
+    const colors = {
+      1: 'blue',
+      2: 'red',
+      3: 'white'
+    }
+    this.color = colors[this.player]
 
     this.create()
 
@@ -101,7 +113,7 @@ class Player {
       this.accelerationX = this.accelerationX - FRICTION  // player was going right, but not any more
     }
     if (inputUp && !this.jumping && !this.falling) {
-      this.accelerationY = this.accelerationY - JUMP     // apply an instantaneous (large) vertical impulse
+      this.accelerationY = this.accelerationY - JUMP // apply an instantaneous (large) vertical impulse
       this.jumping = true
     }
 
@@ -117,7 +129,7 @@ class Player {
 
     // don't fall through the ground, or others
     if (this.velocityY <= 0) {
-      const isColliding = this.isColliding(this.otherPlayer.getEdges(), this.getEdges())
+      const isColliding = COLLISION ? this.isColliding(this.otherPlayer.getEdges(), this.getEdges()) : false
       if (this.position.y < 0 || isColliding) {
         this.velocityY = 0
         this.jumping = false
@@ -140,10 +152,10 @@ class Player {
   isColliding (otherEdges, thisEdges) {
     return (
       (
-        (thisEdges.topLeft.x >= otherEdges.topLeft.x && thisEdges.topLeft.x <= otherEdges.topRight.x)
-        || (thisEdges.topRight.x <= otherEdges.topRight.x && thisEdges.topRight.x >= otherEdges.topLeft.x)
-      )
-      && (this.position.y <= otherEdges.topLeft.y && this.position.y > otherEdges.bottomLeft.y)
+        (thisEdges.topLeft.x >= otherEdges.topLeft.x && thisEdges.topLeft.x <= otherEdges.topRight.x) ||
+        (thisEdges.topRight.x <= otherEdges.topRight.x && thisEdges.topRight.x >= otherEdges.topLeft.x)
+      ) &&
+      (this.position.y <= otherEdges.topLeft.y && this.position.y > otherEdges.bottomLeft.y)
     )
   }
 
@@ -157,14 +169,10 @@ class Player {
         x: this.position.x + this.size,
         y: this.position.y + this.size
       },
-      // bottomRight: {
-      //   x: this.position.x + this.size,
-      //   y: this.position.y
-      // },
       bottomLeft: {
         x: this.position.x,
         y: this.position.y
-      },
+      }
     }
     return (edges)
   }
