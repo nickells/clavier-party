@@ -10,7 +10,7 @@ const HORIZONTAL_ACCEL = MAXDX * 2 // horizontal acceleration -  take 1/2 second
 const FRICTION = MAXDX * 6 // horizontal friction  -  take 1/6 second to stop from maxdx
 const JUMP = METER * 1500 //
 
-const COLLISION = false
+const COLLISION = true
 
 function bound (x, min, max) {
   return Math.max(min, Math.min(max, x))
@@ -161,13 +161,13 @@ class Player {
 
     // don't fall through the ground, or others
     if (this.velocityY <= 0) {
-      const isColliding = COLLISION ? this.isColliding(this.otherPlayer.getEdges(), this.getEdges()) : false
+      const isColliding = COLLISION ? this.isColliding() : false
       if (this.position.y < 0 || isColliding) {
         this.velocityY = 0
         this.jumping = false
         this.falling = false
         if (isColliding) {
-          this.position.y = this.otherPlayer.getEdges().topLeft.y
+          this.position.y = this.collidingWithWhom.getEdges().topLeft.y
         } else {
           this.position.y = 0
         }
@@ -181,14 +181,22 @@ class Player {
     this.$player.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
   }
 
-  isColliding (otherEdges, thisEdges) {
-    return (
-      (
+  isColliding () {
+
+    let thisEdges = this.getEdges()
+    Players.forEach(otherPlayer => {
+      if (otherPlayer.id === this.id) return false
+      let otherEdges = otherPlayer.getEdges()
+      let colliding = (
         (thisEdges.topLeft.x >= otherEdges.topLeft.x && thisEdges.topLeft.x <= otherEdges.topRight.x) ||
         (thisEdges.topRight.x <= otherEdges.topRight.x && thisEdges.topRight.x >= otherEdges.topLeft.x)
       ) &&
-      (this.position.y <= otherEdges.topLeft.y && this.position.y > otherEdges.bottomLeft.y)
-    )
+        (this.position.y <= otherEdges.topLeft.y && this.position.y > otherEdges.bottomLeft.y)
+      if (colliding) {
+        this.collidingWithWhom = otherPlayer
+      } else this.collidingWithWhom = undefined
+    })
+    return this.collidingWithWhom
   }
 
   getEdges () {

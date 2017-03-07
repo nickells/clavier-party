@@ -1,6 +1,5 @@
 import Player from './player_physics'
-// import Players from './players'
-const Players = []
+import Players from './players'
 import { ensureConnect } from './socket'
 
 const player1 = new Player(0)
@@ -9,17 +8,6 @@ const player1 = new Player(0)
 
 Players.push(player1)
 
-
-function playersAlreadyContainsId(id){
-  Players.forEach(player => {
-    console.log(player.id, id)
-    if (player.id === id) {
-      console.log('match found, returning')
-      return true
-    }
-  })
-  return false
-}
 
 ensureConnect().then(socket => {
   console.log('self connected. i am', socket.id)
@@ -39,7 +27,6 @@ ensureConnect().then(socket => {
   socket.on('reconcile', (id, position) => {
     Players.push(new Player(id, position))
   })
-  
 
   socket.on('player_disconnect', id => {
 
@@ -63,12 +50,6 @@ function fixedTimestepRuntimeLoop () {
   // Draw stuff here
   function render (timePassed) {
     Players.forEach((player) => player.render(timePassed))
-    // $hello.innerHTML = `
-    //   <p>Player 1: ${Players[0].position.x} ${Players[0].position.y}</p>
-    //   <p>Player 2: ${Players[1].position.x} ${Players[1].position.y}</p>
-    //   <pre spacing="default">${JSON.stringify(Players[0].getEdges())}</pre>
-    //   <pre spacing="default">${JSON.stringify(Players[1].getEdges())}</pre>
-    // `
   }
 
   function timestamp () {
