@@ -240,6 +240,7 @@ class Player {
     $chat.innerHTML = val
     setTimeout(() => {
       $chat.remove()
+      this.$chats.splice(this.$chats.indexOf($chat), 1)
     }, 2000)
   }
 }
