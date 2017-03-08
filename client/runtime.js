@@ -1,5 +1,6 @@
 import Player from './player_physics'
 import Players from './players'
+import Piano from './piano'
 import { ensureConnect } from './socket'
 
 const player1 = new Player(0)
@@ -54,6 +55,7 @@ function fixedTimestepRuntimeLoop () {
   // Compute stuff here
   function update (step) {
     Players.get().forEach((player) => player.update(step))
+    Object.keys(Piano.notes).forEach(note => Piano.notes[note].update())
   }
 
   // Draw stuff here

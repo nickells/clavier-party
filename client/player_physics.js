@@ -11,6 +11,7 @@ const MAXDY = METER * 60 // max vertical speed(60 tiles per second)
 const HORIZONTAL_ACCEL = MAXDX * 2 // horizontal acceleration -  take 1/2 second to reach maxdx
 const FRICTION = MAXDX * 6 // horizontal friction  -  take 1/6 second to stop from maxdx
 const JUMP = METER * 1500 //
+const CONTAINER_SIZE = 1000
 
 const COLLISION = true
 
@@ -47,6 +48,11 @@ class Player {
             this.forceStop()
           }
         })
+        socket.on('player_color_change', (id, color) => {
+          if (id === this.id) {
+            this.$player.style.backgroundColor = color
+          }
+        })
       })
     }
 
@@ -74,6 +80,12 @@ class Player {
 
     this.addKeyEvents()
     this.create()
+    
+    if (this.isUser) {
+      this.$player.addEventListener('click', (e) => {
+
+      })
+    }
 
     this.$chats = []
 
@@ -116,15 +128,15 @@ class Player {
       height: `${this.size}px`,
       border: '1px solid black',
       position: 'absolute',
+      cursor: this.isUser ? 'pointer' : 'default',
       left: 0,
-      bottom: 0
+      bottom: 0,
+      transition: 'background-color 200ms'
     }
     applyStyles(this.$player, styles)
 
-    document.body.appendChild(this.$player)
-
-
-
+    document.getElementById('game-container').appendChild(this.$player)
+    
   }
 
 
@@ -175,6 +187,18 @@ class Player {
         } else {
           this.position.y = 0
         }
+      }
+    }
+
+    if (this.velocityX > 0) {
+      if (this.position.x >= (1000 - this.size)){
+        this.position.x = 1000 - this.size
+        this.velocityX = 0
+      }
+    } else if (this.velocityX < 0) {
+      if (this.position.x <= 0) {
+        this.position.x = 0
+        this.velocityX = 0
       }
     }
 

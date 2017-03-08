@@ -46,6 +46,10 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('player_force_stop', id)
   })
 
+  socket.on('player_color_change', (id, color) => {
+    socket.broadcast.emit('player_color_change', id, color)
+  })
+
   socket.on('disconnect', () => {
     let idx = 0
 
