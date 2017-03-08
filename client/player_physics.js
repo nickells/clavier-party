@@ -36,6 +36,17 @@ class Player {
             this.inputs[input] = on
           }
         })
+
+        socket.on('player_chat', (id, chat) => {
+          if (id === this.id) {
+            this.say(chat)
+          }
+        })
+        socket.on('player_force_stop', (id) => {
+          if (id === this.id) {
+            this.forceStop()
+          }
+        })
       })
     }
 

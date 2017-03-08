@@ -9,7 +9,8 @@ const Keys = {
     83: 'S',
     68: 'D',
     32: 'SPACE',
-    13: 'ENTER'
+    13: 'ENTER',
+    27: 'ESCAPE',
   },
 
   keyDownActions: {

@@ -38,6 +38,14 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('player_input', socket.id, input, bool )
   })
 
+  socket.on('player_chat', (id, chat) => {
+    socket.broadcast.emit('player_chat', id, chat)
+  })
+
+  socket.on('player_force_stop', (id) => {
+    socket.broadcast.emit('player_force_stop', id)
+  })
+
   socket.on('disconnect', () => {
     let idx = 0
 
