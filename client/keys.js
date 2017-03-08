@@ -7,7 +7,9 @@ const Keys = {
     87: 'W',
     65: 'A',
     83: 'S',
-    68: 'D'
+    68: 'D',
+    32: 'SPACE',
+    13: 'ENTER'
   },
 
   keydownActions: {
@@ -40,6 +42,21 @@ const Keys = {
 
   keyup (key, func) {
     this.keyUpActions[key] = func
+  },
+
+  pausePropogation () {
+    this.cachedKeydownActions = Object.assign({}, this.keydownActions)
+    this.cachedKeyupActions = Object.assign({}, this.KeyupActions)
+    this.keyDownActions = undefined
+    this.keyUpActions = undefined
+  },
+
+  resumePropogation () {
+    this.keyDownActions = this.cachedKeydownActions
+    this.cachedKeydownActions = undefined
+
+    this.keyUpActions = this.cachedKeyupActions
+    this.cachedKeydownActions = undefined
   }
 
 }
