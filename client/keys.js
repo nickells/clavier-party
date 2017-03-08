@@ -12,7 +12,7 @@ const Keys = {
     13: 'ENTER'
   },
 
-  keydownActions: {
+  keyDownActions: {
 
   },
 
@@ -24,7 +24,7 @@ const Keys = {
     window.addEventListener('keydown', (e) => {
       const keyCode = e.which
       const key = this.map[keyCode]
-      if (this.keydownActions[key]) this.keydownActions[key]()
+      if (this.keyDownActions[key]) this.keyDownActions[key]()
     })
 
     window.addEventListener('keyup', (e) => {
@@ -33,30 +33,35 @@ const Keys = {
       if (this.keyUpActions[key]) this.keyUpActions[key]()
     })
 
-    this.keydown = this.keydown.bind(this)
   },
 
   keydown (key, func) {
-    this.keydownActions[key] = func
+    this.keyDownActions[key] = func
   },
 
   keyup (key, func) {
     this.keyUpActions[key] = func
   },
 
+  removeListenerFor (key) {
+    if (this.keyDownActions[key]) this.keyDownActions[key] = {}
+    if (this.keyUpActions[key]) this.keyUpActions[key] = {}
+  },
+
   pausePropogation () {
-    this.cachedKeydownActions = Object.assign({}, this.keydownActions)
-    this.cachedKeyupActions = Object.assign({}, this.KeyupActions)
-    this.keyDownActions = undefined
-    this.keyUpActions = undefined
+    this.cachedKeyDownActions = Object.assign({}, this.keyDownActions)
+    this.cachedKeyUpActions = Object.assign({}, this.keyUpActions)
+    this.keyDownActions = {}
+    this.keyUpActions = {}
+
   },
 
   resumePropogation () {
-    this.keyDownActions = this.cachedKeydownActions
-    this.cachedKeydownActions = undefined
+    this.keyDownActions = this.cachedKeyDownActions
+    this.cachedKeyDownActions = undefined
 
-    this.keyUpActions = this.cachedKeyupActions
-    this.cachedKeydownActions = undefined
+    this.keyUpActions = this.cachedKeyUpActions
+    this.cachedKeyDownActions = undefined
   }
 
 }

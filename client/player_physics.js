@@ -2,6 +2,7 @@ import Keys from './keys'
 import Players from './players'
 import ChatBar from './Chatbar'
 import { ensureConnect } from './socket'
+import { applyStyles } from './util'
 
 const METER = 30
 const GRAVITY = METER * 9.8 * 6 // very exagerated gravity (6x)
@@ -15,13 +16,6 @@ const COLLISION = true
 
 function bound (x, min, max) {
   return Math.max(min, Math.min(max, x))
-}
-
-const applyStyles = ($elem, styles) => {
-  Object.keys(styles).forEach(key => {
-    $elem.style[key] = styles[key]
-  })
-  return $elem
 }
 
 class Player {
@@ -58,6 +52,7 @@ class Player {
     this.destroy = this.destroy.bind(this)
     this.getEdges = this.getEdges.bind(this)
 
+    // Movement stuff
     this.velocityX = 0
     this.velocityY = 0
     this.accelerationX = 0
@@ -66,6 +61,14 @@ class Player {
     this.falling = true
     this.size = METER
 
+    this.addKeyEvents()
+    this.create()
+
+    this.$chats = []
+
+  }
+
+  addKeyEvents () {
     if (this.isUser) {
       const directions = ['left', 'right', 'up']
       directions.forEach(direction => {
@@ -74,7 +77,6 @@ class Player {
           if (this.isUser) {
             ensureConnect()
             .then(socket => {
-              console.log('emit')
               socket.emit('player_input', this.id, direction, true)
             })
           }
@@ -89,11 +91,8 @@ class Player {
           }
         })
       })
-      Keys.keydown('ENTER', ChatBar.launch)
+      Keys.keydown('ENTER', () => ChatBar.launch())
     }
-
-    this.create()
-
   }
 
   create () {
@@ -112,7 +111,11 @@ class Player {
     applyStyles(this.$player, styles)
 
     document.body.appendChild(this.$player)
+
+
+
   }
+
 
   update (step) {
     const wasleft = this.velocityX < 0
@@ -169,6 +172,11 @@ class Player {
 
   render (time) {
     this.$player.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
+    if (this.$chats) {
+      this.$chats.forEach($chat => {
+        $chat.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
+      })
+    }
   }
 
   isColliding () {
@@ -208,6 +216,31 @@ class Player {
 
   destroy () {
     this.$player.remove()
+  }
+
+  forceStop () {
+    const directions = ['left', 'right', 'up']
+    directions.forEach(key => {
+      if (this.inputs[key]) this.inputs[key] = false
+    })
+  }
+
+  removeKeyEvents () {
+    if (this.isUser) {
+      const directions = ['left', 'right', 'up', 'ENTER']
+      directions.forEach(key => Keys.removeListenerFor(key))
+    }
+  }
+
+  say (val) {
+    const $chat = document.createElement('p')
+    $chat.classList.add('chatText')
+    this.$chats.push($chat)
+    this.$player.parentNode.insertBefore($chat, this.$player)
+    $chat.innerHTML = val
+    setTimeout(() => {
+      $chat.remove()
+    }, 2000)
   }
 }
 

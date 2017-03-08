@@ -47,7 +47,7 @@ ensureConnect().then(socket => {
     Players.getOthers().forEach(player => {
       socket.emit('gather_position', socket.id, Players.user.position, player.id)
     })
-  }, 300)
+  }, 500)
 })
 
 function fixedTimestepRuntimeLoop () {

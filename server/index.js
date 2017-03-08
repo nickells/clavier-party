@@ -40,8 +40,7 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     let idx = 0
-    console.log(socket.id, 'has disconnected')
-    console.log(Players)
+
     for (let i = 0; i < Players.length; i++ ){
       if (Players[i].id === socket.id) {
         idx = i
