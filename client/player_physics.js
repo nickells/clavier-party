@@ -125,7 +125,6 @@ class Player {
       backgroundColor: this.color,
       width: `${this.size}px`,
       height: `${this.size}px`,
-      border: '1px solid grey',
       position: 'absolute',
       cursor: this.isUser ? 'pointer' : 'default',
       left: 0,

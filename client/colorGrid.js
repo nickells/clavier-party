@@ -23,6 +23,6 @@ export default {
     })
   },
   pickRandom () {
-    return this.colors[Math.floor(Math.random() * this.colors.length + 1)]
+    return this.colors[Math.floor(Math.random() * this.colors.length)]
   }
 }
