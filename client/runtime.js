@@ -60,6 +60,7 @@ function fixedTimestepRuntimeLoop () {
   // Draw stuff here
   function render (timePassed) {
     Players.get().forEach((player) => player.render(timePassed))
+    Object.keys(Piano.notes).forEach(note => Piano.notes[note].render())
   }
 
   function timestamp () {
