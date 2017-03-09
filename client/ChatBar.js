@@ -26,7 +26,8 @@ const ChatBar = {
   },
 
   submit () {
-    const value = this.$input.value.trim()
+    const value = this.$input.value.trim().replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
     if (!value) this.hide()
     ensureConnect()
     .then(socket => {
