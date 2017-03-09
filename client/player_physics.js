@@ -26,10 +26,12 @@ class Player {
     this.isUser = id === 0
 
     this.position = position || {
-      x: Math.floor(Math.random() * 100),
+      x: Math.floor(Math.random() * 800),
       y: 0
     }
     this.color = color || colorGrid.pickRandom()
+
+    this.isFirstRender = true
 
     if (this.isUser) {
       ensureConnect()
@@ -84,7 +86,7 @@ class Player {
 
     this.addKeyEvents()
     this.create()
-    
+
 
     this.$chats = []
 
@@ -134,7 +136,7 @@ class Player {
     applyStyles(this.$player, styles)
 
     document.getElementById('game-container').appendChild(this.$player)
-    
+
   }
 
 
@@ -146,8 +148,6 @@ class Player {
     const inputUp = this.inputs.up || this.inputs.W
     this.accelerationX = 0
     this.accelerationY = GRAVITY
-
-    this.hasMoved = this.velocityX || this.velocityY
 
     if (inputLeft) {
       this.accelerationX = this.accelerationX - HORIZONTAL_ACCEL     // player wants to go left
@@ -203,6 +203,9 @@ class Player {
     }
 
     this.falling = this.position.y < 0
+
+    this.hasMoved = this.isFirstRender ? true : this.lastPosition && (this.lastPosition.x !== this.position.x || this.lastPosition.y !== this.position.y)
+    this.lastPosition = Object.assign({}, this.position )
   }
 
   render (time) {
@@ -211,8 +214,11 @@ class Player {
         $chat.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
       })
     }
-    if (!this.hasMoved) return
+    
+    // to do: make this smarter
+    // if (!this.hasMoved) return
     this.$player.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
+    this.isFirstRender = false
   }
 
   isColliding () {

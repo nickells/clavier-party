@@ -20,7 +20,22 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('player_connected', player)
   })
 
-  // A player is sending us its position to tell a new player
+  // Send position to everyone except sender
+  socket.on('send_position', (id, player) => {
+    const { position, color, velocityX, velocityY } = player
+    Players.forEach(player => {
+      if (player.id === id) {
+        player.position = position
+        player.color = color
+        player.velocityX = velocityX
+        player.velocityY = velocityY
+      }
+    })
+
+    socket.broadcast.emit('update_position', id, player)
+  })
+
+  // Send position to a single player
   socket.on('gather_position', (id, position, reconcilingFor, color) => {
 
     // Update position of player inside Players collection

@@ -14,7 +14,8 @@ ensureConnect().then(socket => {
   // New player has connected
   socket.on('player_connected', (player)=> {
     // Add new player to local players reference
-    Players.add(new Player(player.id, player.position, player.color))
+    const newPlayer = new Player(player.id, player.position, player.color)
+    Players.add(newPlayer)
     const thisId = socket.id
     const thisPosition = player1.position
     const reconcilingFor = player.id
@@ -32,6 +33,27 @@ ensureConnect().then(socket => {
     }
   })
 
+  socket.on('update_position', (id, player) => {
+    const {position, color, velocityX, velocityY, accelerationX, accelerationY, jumping, falling} = player
+    const updatedPlayer = Players.getOne(id)
+    if (!Players.getOne(id)) Players.add(new Player(id, position, color))
+    else {
+      // updatedPlayer.hasMoved = true
+      if (updatedPlayer.position.x !== position.x || updatedPlayer.position.y !== position.y) {
+        updatedPlayer.hasMoved = true
+      }
+      updatedPlayer.position = position
+      updatedPlayer.color = color
+      updatedPlayer.velocityX = velocityX
+      updatedPlayer.velocityY = velocityY
+      updatedPlayer.accelerationX = accelerationX
+      updatedPlayer.accelerationY = accelerationY
+      updatedPlayer.jumping = jumping
+      updatedPlayer.falling = falling
+
+    }
+  })
+
   socket.on('player_disconnect', id => {
 
     let idx = 0
@@ -44,9 +66,9 @@ ensureConnect().then(socket => {
   })
 
   setInterval(() => {
-    Players.getOthers().forEach(player => {
-      socket.emit('gather_position', socket.id, Players.user.position, player.id, Players.user.color)
-    })
+    if (Players.user.hasMoved) {
+      socket.emit('send_position', socket.id, Players.user)
+    }
   }, 500)
 })
 
