@@ -4353,7 +4353,8 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__socket__["a" /* ensureConnect
   // New player has connected
   socket.on('player_connected', (player)=> {
     // Add new player to local players reference
-    __WEBPACK_IMPORTED_MODULE_1__players__["a" /* default */].add(new __WEBPACK_IMPORTED_MODULE_0__player_physics__["a" /* default */](player.id, player.position, player.color))
+    const newPlayer = new __WEBPACK_IMPORTED_MODULE_0__player_physics__["a" /* default */](player.id, player.position, player.color)
+    __WEBPACK_IMPORTED_MODULE_1__players__["a" /* default */].add(newPlayer)
     const thisId = socket.id
     const thisPosition = player1.position
     const reconcilingFor = player.id
@@ -4371,6 +4372,22 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__socket__["a" /* ensureConnect
     }
   })
 
+  socket.on('update_position', (id, player) => {
+    const {position, color, velocityX, velocityY} = player
+    const updatedPlayer = __WEBPACK_IMPORTED_MODULE_1__players__["a" /* default */].getOne(id)
+    if (!__WEBPACK_IMPORTED_MODULE_1__players__["a" /* default */].getOne(id)) __WEBPACK_IMPORTED_MODULE_1__players__["a" /* default */].add(new __WEBPACK_IMPORTED_MODULE_0__player_physics__["a" /* default */](id, position, color))
+    else {
+      // updatedPlayer.hasMoved = true
+      if (updatedPlayer.position.x !== position.x || updatedPlayer.position.y !== position.y) {
+        updatedPlayer.hasMoved = true
+      }
+      updatedPlayer.position = position
+      updatedPlayer.color = color
+      updatedPlayer.velocityX = velocityX
+      updatedPlayer.velocityY = velocityY
+    }
+  })
+
   socket.on('player_disconnect', id => {
 
     let idx = 0
@@ -4383,9 +4400,9 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__socket__["a" /* ensureConnect
   })
 
   setInterval(() => {
-    __WEBPACK_IMPORTED_MODULE_1__players__["a" /* default */].getOthers().forEach(player => {
-      socket.emit('gather_position', socket.id, __WEBPACK_IMPORTED_MODULE_1__players__["a" /* default */].user.position, player.id, __WEBPACK_IMPORTED_MODULE_1__players__["a" /* default */].user.color)
-    })
+    if (__WEBPACK_IMPORTED_MODULE_1__players__["a" /* default */].user.hasMoved) {
+      socket.emit('send_position', socket.id, __WEBPACK_IMPORTED_MODULE_1__players__["a" /* default */].user)
+    }
   }, 500)
 })
 
@@ -4647,10 +4664,12 @@ class Player {
     this.isUser = id === 0
 
     this.position = position || {
-      x: Math.floor(Math.random() * 100),
+      x: Math.floor(Math.random() * 800),
       y: 0
     }
     this.color = color || __WEBPACK_IMPORTED_MODULE_5__colorGrid__["a" /* default */].pickRandom()
+
+    this.isFirstRender = true
 
     if (this.isUser) {
       __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__socket__["a" /* ensureConnect */])()
@@ -4705,7 +4724,7 @@ class Player {
 
     this.addKeyEvents()
     this.create()
-    
+
 
     this.$chats = []
 
@@ -4755,7 +4774,7 @@ class Player {
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__util__["a" /* applyStyles */])(this.$player, styles)
 
     document.getElementById('game-container').appendChild(this.$player)
-    
+
   }
 
 
@@ -4767,8 +4786,6 @@ class Player {
     const inputUp = this.inputs.up || this.inputs.W
     this.accelerationX = 0
     this.accelerationY = GRAVITY
-
-    this.hasMoved = this.velocityX || this.velocityY
 
     if (inputLeft) {
       this.accelerationX = this.accelerationX - HORIZONTAL_ACCEL     // player wants to go left
@@ -4824,6 +4841,9 @@ class Player {
     }
 
     this.falling = this.position.y < 0
+
+    this.hasMoved = this.isFirstRender ? true : this.lastPosition && (this.lastPosition.x !== this.position.x || this.lastPosition.y !== this.position.y)
+    this.lastPosition = Object.assign({}, this.position )
   }
 
   render (time) {
@@ -4832,8 +4852,11 @@ class Player {
         $chat.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
       })
     }
-    if (!this.hasMoved) return
+    
+    // to do: make this smarter
+    // if (!this.hasMoved) return
     this.$player.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
+    this.isFirstRender = false
   }
 
   isColliding () {
