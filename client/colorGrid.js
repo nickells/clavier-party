@@ -1,12 +1,13 @@
 import Players from './players'
 import { ensureConnect } from './socket'
 
+const colors16 =  ['black', 'gray', 'maroon', 'red', 'green', 'lime', 'olive', 'yellow', 'navy', 'blue', 'purple', 'fuchsia', 'teal', 'aqua', 'silver', 'white']
+
 export default {
-  colors: ['black', 'gray', 'maroon', 'red', 'green', 'lime', 'olive', 'yellow', 'navy', 'blue', 'purple', 'fuchsia', 'teal', 'aqua', 'silver', 'white'],
+  colors: colors16.filter((color, i) => i % 2 !== 0),
   init () {
     this.$grid = document.getElementById('color-grid')
     this.colors.forEach((color, idx) => {
-      if (idx % 2 === 0) return
       const $square = document.createElement('div')
       $square.classList.add('color-grid-box')
       $square.style.backgroundColor = color
@@ -22,6 +23,6 @@ export default {
     })
   },
   pickRandom () {
-    return this.colors[Math.floor(Math.random() * 17)]
+    return this.colors[Math.floor(Math.random() * this.colors.length + 1)]
   }
 }
