@@ -4,6 +4,9 @@ const path = require('path')
 
 const server = require('http').createServer(app)
 
+const favicon = require('serve-favicon')
+
+
 const io = require('socket.io')(server)
 
 let Players = []
@@ -79,7 +82,7 @@ io.on('connection', (socket) => {
   })
 })
 
-
+app.use(favicon(path.join(__dirname, '../', 'favicon.png')))
 app.use(express.static('dist'))
 app.get('/', (req, res) => {
   res.sendFile(path.resolve('dist/index.html'));
