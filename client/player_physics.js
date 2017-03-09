@@ -139,23 +139,25 @@ class Player {
 
 
   update (step) {
-    const wasleft = this.velocityX < 0
-    const wasright = this.velocityX > 0
+    const wasLeft = this.velocityX < 0
+    const wasRight = this.velocityX > 0
     const inputLeft = this.inputs.left || this.inputs.A
     const inputRight = this.inputs.right || this.inputs.D
     const inputUp = this.inputs.up || this.inputs.W
     this.accelerationX = 0
     this.accelerationY = GRAVITY
 
+    this.hasMoved = this.velocityX || this.velocityY
+
     if (inputLeft) {
       this.accelerationX = this.accelerationX - HORIZONTAL_ACCEL     // player wants to go left
-    } else if (wasleft) {
+    } else if (wasLeft) {
       this.accelerationX = this.accelerationX + FRICTION  // player was going left, but not any more
     }
 
     if (inputRight) {
       this.accelerationX = this.accelerationX + HORIZONTAL_ACCEL // player wants to go right
-    } else if (wasright) {
+    } else if (wasRight) {
       this.accelerationX = this.accelerationX - FRICTION  // player was going right, but not any more
     }
     if (inputUp && !this.jumping && !this.falling) {
@@ -168,8 +170,8 @@ class Player {
     this.velocityX = bound(this.velocityX + (step * this.accelerationX), -MAXDX, MAXDX)
     this.velocityY = bound(this.velocityY - (step * this.accelerationY), -MAXDY, MAXDY)
 
-    if ((wasleft && (this.velocityX > 0)) ||
-      (wasright && (this.velocityX < 0))) {
+    if ((wasLeft && (this.velocityX > 0)) ||
+      (wasRight && (this.velocityX < 0))) {
       this.velocityX = 0 // clamp at zero to prevent friction from making us jiggle side to side
     }
 
@@ -204,12 +206,13 @@ class Player {
   }
 
   render (time) {
-    this.$player.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
     if (this.$chats) {
       this.$chats.forEach($chat => {
         $chat.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
       })
     }
+    if (!this.hasMoved) return
+    this.$player.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
   }
 
   isColliding () {
