@@ -70,4 +70,4 @@ app.get('/', (req, res) => {
   res.sendFile(path.resolve('dist/index.html'));
 })
 
-server.listen(9000)
+server.listen(process.env.PORT || 9000)
