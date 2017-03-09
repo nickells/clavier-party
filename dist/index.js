@@ -4373,7 +4373,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__socket__["a" /* ensureConnect
   })
 
   socket.on('update_position', (id, player) => {
-    const {position, color, velocityX, velocityY} = player
+    const {position, color, velocityX, velocityY, accelerationX, accelerationY, jumping, falling} = player
     const updatedPlayer = __WEBPACK_IMPORTED_MODULE_1__players__["a" /* default */].getOne(id)
     if (!__WEBPACK_IMPORTED_MODULE_1__players__["a" /* default */].getOne(id)) __WEBPACK_IMPORTED_MODULE_1__players__["a" /* default */].add(new __WEBPACK_IMPORTED_MODULE_0__player_physics__["a" /* default */](id, position, color))
     else {
@@ -4385,6 +4385,11 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__socket__["a" /* ensureConnect
       updatedPlayer.color = color
       updatedPlayer.velocityX = velocityX
       updatedPlayer.velocityY = velocityY
+      updatedPlayer.accelerationX = accelerationX
+      updatedPlayer.accelerationY = accelerationY
+      updatedPlayer.jumping = jumping
+      updatedPlayer.falling = falling
+
     }
   })
 
