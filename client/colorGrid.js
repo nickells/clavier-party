@@ -5,7 +5,8 @@ export default {
   colors: ['black', 'gray', 'maroon', 'red', 'green', 'lime', 'olive', 'yellow', 'navy', 'blue', 'purple', 'fuchsia', 'teal', 'aqua', 'silver', 'white'],
   init () {
     this.$grid = document.getElementById('color-grid')
-    this.colors.forEach(color => {
+    this.colors.forEach((color, idx) => {
+      if (idx % 2 === 0) return
       const $square = document.createElement('div')
       $square.classList.add('color-grid-box')
       $square.style.backgroundColor = color
