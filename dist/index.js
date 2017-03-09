@@ -4571,7 +4571,7 @@ class Note {
       }
     } else {
       if (this.needsUpdating) {
-        this.$elem.style.boxShadow = `0px 0px 0px black`
+        this.$elem.style.boxShadow = `0px 0px 0px rgba(0, 0, 0, 0)`
         this.$elem.classList.remove('playing')
         this.needsUpdating = false
       }
