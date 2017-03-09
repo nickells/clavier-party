@@ -1,6 +1,6 @@
 import Keys from './keys'
 import Players from './players'
-import ChatBar from './Chatbar'
+import ChatBar from './ChatBar'
 import { ensureConnect } from './socket'
 import { applyStyles } from './util'
 import colorGrid from './colorGrid'

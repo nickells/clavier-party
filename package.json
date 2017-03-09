@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch:client": "webpack --config webpack.config.js --watch",
     "watch:server": "nodemon server --verbose --watch server/*",
+    "build": "webpack --config webpack.config.js",
     "start": "node server"
   },
   "author": "",

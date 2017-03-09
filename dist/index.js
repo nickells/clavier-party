@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 67);
+/******/ 	return __webpack_require__(__webpack_require__.s = 66);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -95,61 +95,21 @@ module.exports = g;
 
 /***/ }),
 /* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = {
-  hash: {},
-  list: [],
-  removeIndex (idx) {
-    const item = this.list[idx]
-    this.hash[item.id] = false
-    item.destroy()
-    this.list.splice(idx, 1)
-    return this.list
-  },
-
-  add (item) {
-    if (item.id === 0) this.user = item
-    this.list.push(item)
-    this.hash[item.id] = item
-  },
-
-  get () {
-    return this.list
-  },
-
-  getOne (id) {
-    return this.hash[id]
-  },
-
-  getOthers () {
-    return this.list.slice(1)
-  },
-
-  containsId (id) {
-    return this.hash[id]
-  }
-};
-
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
  * Module dependencies.
  */
 
-var keys = __webpack_require__(49);
-var hasBinary = __webpack_require__(19);
-var sliceBuffer = __webpack_require__(37);
-var after = __webpack_require__(36);
-var utf8 = __webpack_require__(65);
+var keys = __webpack_require__(48);
+var hasBinary = __webpack_require__(20);
+var sliceBuffer = __webpack_require__(36);
+var after = __webpack_require__(35);
+var utf8 = __webpack_require__(64);
 
 var base64encoder;
 if (global && global.ArrayBuffer) {
-  base64encoder = __webpack_require__(39);
+  base64encoder = __webpack_require__(38);
 }
 
 /**
@@ -207,7 +167,7 @@ var err = { type: 'error', data: 'parser error' };
  * Create a blob api even for blob builder when vendor prefixes exist
  */
 
-var Blob = __webpack_require__(40);
+var Blob = __webpack_require__(39);
 
 /**
  * Encodes a packet.
@@ -750,11 +710,51 @@ exports.decodePayloadAsBinary = function (data, binaryType, callback) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = {
+  hash: {},
+  list: [],
+  removeIndex (idx) {
+    const item = this.list[idx]
+    this.hash[item.id] = false
+    item.destroy()
+    this.list.splice(idx, 1)
+    return this.list
+  },
+
+  add (item) {
+    if (item.id === 0) this.user = item
+    this.list.push(item)
+    this.hash[item.id] = item
+  },
+
+  get () {
+    return this.list
+  },
+
+  getOne (id) {
+    return this.hash[id]
+  },
+
+  getOthers () {
+    return this.list.slice(1)
+  },
+
+  containsId (id) {
+    return this.hash[id]
+  }
+};
+
+
+/***/ }),
 /* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_socket_io_client__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_socket_io_client__ = __webpack_require__(53);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_socket_io_client__);
 
 const socket = __WEBPACK_IMPORTED_MODULE_0_socket_io_client___default()(window.location.host)
@@ -774,6 +774,386 @@ const ensureConnect = () => new Promise((resolve, reject) => {
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports) {
+
+
+module.exports = function(a, b){
+  var fn = function(){};
+  fn.prototype = b.prototype;
+  a.prototype = new fn;
+  a.prototype.constructor = a;
+};
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {
+/**
+ * This is the web browser implementation of `debug()`.
+ *
+ * Expose `debug()` as the module.
+ */
+
+exports = module.exports = __webpack_require__(47);
+exports.log = log;
+exports.formatArgs = formatArgs;
+exports.save = save;
+exports.load = load;
+exports.useColors = useColors;
+exports.storage = 'undefined' != typeof chrome
+               && 'undefined' != typeof chrome.storage
+                  ? chrome.storage.local
+                  : localstorage();
+
+/**
+ * Colors.
+ */
+
+exports.colors = [
+  'lightseagreen',
+  'forestgreen',
+  'goldenrod',
+  'dodgerblue',
+  'darkorchid',
+  'crimson'
+];
+
+/**
+ * Currently only WebKit-based Web Inspectors, Firefox >= v31,
+ * and the Firebug extension (any Firefox version) are known
+ * to support "%c" CSS customizations.
+ *
+ * TODO: add a `localStorage` variable to explicitly enable/disable colors
+ */
+
+function useColors() {
+  // is webkit? http://stackoverflow.com/a/16459606/376773
+  // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
+  return (typeof document !== 'undefined' && 'WebkitAppearance' in document.documentElement.style) ||
+    // is firebug? http://stackoverflow.com/a/398120/376773
+    (window.console && (console.firebug || (console.exception && console.table))) ||
+    // is firefox >= v31?
+    // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
+    (navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31);
+}
+
+/**
+ * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
+ */
+
+exports.formatters.j = function(v) {
+  try {
+    return JSON.stringify(v);
+  } catch (err) {
+    return '[UnexpectedJSONParseError]: ' + err.message;
+  }
+};
+
+
+/**
+ * Colorize log arguments if enabled.
+ *
+ * @api public
+ */
+
+function formatArgs() {
+  var args = arguments;
+  var useColors = this.useColors;
+
+  args[0] = (useColors ? '%c' : '')
+    + this.namespace
+    + (useColors ? ' %c' : ' ')
+    + args[0]
+    + (useColors ? '%c ' : ' ')
+    + '+' + exports.humanize(this.diff);
+
+  if (!useColors) return args;
+
+  var c = 'color: ' + this.color;
+  args = [args[0], c, 'color: inherit'].concat(Array.prototype.slice.call(args, 1));
+
+  // the final "%c" is somewhat tricky, because there could be other
+  // arguments passed either before or after the %c, so we need to
+  // figure out the correct index to insert the CSS into
+  var index = 0;
+  var lastC = 0;
+  args[0].replace(/%[a-z%]/g, function(match) {
+    if ('%%' === match) return;
+    index++;
+    if ('%c' === match) {
+      // we only are interested in the *last* %c
+      // (the user may have provided their own)
+      lastC = index;
+    }
+  });
+
+  args.splice(lastC, 0, c);
+  return args;
+}
+
+/**
+ * Invokes `console.log()` when available.
+ * No-op when `console.log` is not a "function".
+ *
+ * @api public
+ */
+
+function log() {
+  // this hackery is required for IE8/9, where
+  // the `console.log` function doesn't have 'apply'
+  return 'object' === typeof console
+    && console.log
+    && Function.prototype.apply.call(console.log, console, arguments);
+}
+
+/**
+ * Save `namespaces`.
+ *
+ * @param {String} namespaces
+ * @api private
+ */
+
+function save(namespaces) {
+  try {
+    if (null == namespaces) {
+      exports.storage.removeItem('debug');
+    } else {
+      exports.storage.debug = namespaces;
+    }
+  } catch(e) {}
+}
+
+/**
+ * Load `namespaces`.
+ *
+ * @return {String} returns the previously persisted debug modes
+ * @api private
+ */
+
+function load() {
+  var r;
+  try {
+    return exports.storage.debug;
+  } catch(e) {}
+
+  // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
+  if (typeof process !== 'undefined' && 'env' in process) {
+    return process.env.DEBUG;
+  }
+}
+
+/**
+ * Enable namespaces listed in `localStorage.debug` initially.
+ */
+
+exports.enable(load());
+
+/**
+ * Localstorage attempts to return the localstorage.
+ *
+ * This is necessary because safari throws
+ * when a user disables cookies/localstorage
+ * and you attempt to access it.
+ *
+ * @return {LocalStorage}
+ * @api private
+ */
+
+function localstorage(){
+  try {
+    return window.localStorage;
+  } catch (e) {}
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24)))
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {
+/**
+ * This is the web browser implementation of `debug()`.
+ *
+ * Expose `debug()` as the module.
+ */
+
+exports = module.exports = __webpack_require__(55);
+exports.log = log;
+exports.formatArgs = formatArgs;
+exports.save = save;
+exports.load = load;
+exports.useColors = useColors;
+exports.storage = 'undefined' != typeof chrome
+               && 'undefined' != typeof chrome.storage
+                  ? chrome.storage.local
+                  : localstorage();
+
+/**
+ * Colors.
+ */
+
+exports.colors = [
+  'lightseagreen',
+  'forestgreen',
+  'goldenrod',
+  'dodgerblue',
+  'darkorchid',
+  'crimson'
+];
+
+/**
+ * Currently only WebKit-based Web Inspectors, Firefox >= v31,
+ * and the Firebug extension (any Firefox version) are known
+ * to support "%c" CSS customizations.
+ *
+ * TODO: add a `localStorage` variable to explicitly enable/disable colors
+ */
+
+function useColors() {
+  // is webkit? http://stackoverflow.com/a/16459606/376773
+  // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
+  return (typeof document !== 'undefined' && 'WebkitAppearance' in document.documentElement.style) ||
+    // is firebug? http://stackoverflow.com/a/398120/376773
+    (window.console && (console.firebug || (console.exception && console.table))) ||
+    // is firefox >= v31?
+    // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
+    (navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31);
+}
+
+/**
+ * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
+ */
+
+exports.formatters.j = function(v) {
+  try {
+    return JSON.stringify(v);
+  } catch (err) {
+    return '[UnexpectedJSONParseError]: ' + err.message;
+  }
+};
+
+
+/**
+ * Colorize log arguments if enabled.
+ *
+ * @api public
+ */
+
+function formatArgs() {
+  var args = arguments;
+  var useColors = this.useColors;
+
+  args[0] = (useColors ? '%c' : '')
+    + this.namespace
+    + (useColors ? ' %c' : ' ')
+    + args[0]
+    + (useColors ? '%c ' : ' ')
+    + '+' + exports.humanize(this.diff);
+
+  if (!useColors) return args;
+
+  var c = 'color: ' + this.color;
+  args = [args[0], c, 'color: inherit'].concat(Array.prototype.slice.call(args, 1));
+
+  // the final "%c" is somewhat tricky, because there could be other
+  // arguments passed either before or after the %c, so we need to
+  // figure out the correct index to insert the CSS into
+  var index = 0;
+  var lastC = 0;
+  args[0].replace(/%[a-z%]/g, function(match) {
+    if ('%%' === match) return;
+    index++;
+    if ('%c' === match) {
+      // we only are interested in the *last* %c
+      // (the user may have provided their own)
+      lastC = index;
+    }
+  });
+
+  args.splice(lastC, 0, c);
+  return args;
+}
+
+/**
+ * Invokes `console.log()` when available.
+ * No-op when `console.log` is not a "function".
+ *
+ * @api public
+ */
+
+function log() {
+  // this hackery is required for IE8/9, where
+  // the `console.log` function doesn't have 'apply'
+  return 'object' === typeof console
+    && console.log
+    && Function.prototype.apply.call(console.log, console, arguments);
+}
+
+/**
+ * Save `namespaces`.
+ *
+ * @param {String} namespaces
+ * @api private
+ */
+
+function save(namespaces) {
+  try {
+    if (null == namespaces) {
+      exports.storage.removeItem('debug');
+    } else {
+      exports.storage.debug = namespaces;
+    }
+  } catch(e) {}
+}
+
+/**
+ * Load `namespaces`.
+ *
+ * @return {String} returns the previously persisted debug modes
+ * @api private
+ */
+
+function load() {
+  var r;
+  try {
+    return exports.storage.debug;
+  } catch(e) {}
+
+  // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
+  if (typeof process !== 'undefined' && 'env' in process) {
+    return process.env.DEBUG;
+  }
+}
+
+/**
+ * Enable namespaces listed in `localStorage.debug` initially.
+ */
+
+exports.enable(load());
+
+/**
+ * Localstorage attempts to return the localstorage.
+ *
+ * This is necessary because safari throws
+ * when a user disables cookies/localstorage
+ * and you attempt to access it.
+ *
+ * @return {LocalStorage}
+ * @api private
+ */
+
+function localstorage(){
+  try {
+    return window.localStorage;
+  } catch (e) {}
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24)))
+
+/***/ }),
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -850,410 +1230,15 @@ const Keys = {
 
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-
-module.exports = function(a, b){
-  var fn = function(){};
-  fn.prototype = b.prototype;
-  a.prototype = new fn;
-  a.prototype.constructor = a;
-};
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(process) {
-/**
- * This is the web browser implementation of `debug()`.
- *
- * Expose `debug()` as the module.
- */
-
-exports = module.exports = __webpack_require__(48);
-exports.log = log;
-exports.formatArgs = formatArgs;
-exports.save = save;
-exports.load = load;
-exports.useColors = useColors;
-exports.storage = 'undefined' != typeof chrome
-               && 'undefined' != typeof chrome.storage
-                  ? chrome.storage.local
-                  : localstorage();
-
-/**
- * Colors.
- */
-
-exports.colors = [
-  'lightseagreen',
-  'forestgreen',
-  'goldenrod',
-  'dodgerblue',
-  'darkorchid',
-  'crimson'
-];
-
-/**
- * Currently only WebKit-based Web Inspectors, Firefox >= v31,
- * and the Firebug extension (any Firefox version) are known
- * to support "%c" CSS customizations.
- *
- * TODO: add a `localStorage` variable to explicitly enable/disable colors
- */
-
-function useColors() {
-  // is webkit? http://stackoverflow.com/a/16459606/376773
-  // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
-  return (typeof document !== 'undefined' && 'WebkitAppearance' in document.documentElement.style) ||
-    // is firebug? http://stackoverflow.com/a/398120/376773
-    (window.console && (console.firebug || (console.exception && console.table))) ||
-    // is firefox >= v31?
-    // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
-    (navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31);
-}
-
-/**
- * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
- */
-
-exports.formatters.j = function(v) {
-  try {
-    return JSON.stringify(v);
-  } catch (err) {
-    return '[UnexpectedJSONParseError]: ' + err.message;
-  }
-};
-
-
-/**
- * Colorize log arguments if enabled.
- *
- * @api public
- */
-
-function formatArgs() {
-  var args = arguments;
-  var useColors = this.useColors;
-
-  args[0] = (useColors ? '%c' : '')
-    + this.namespace
-    + (useColors ? ' %c' : ' ')
-    + args[0]
-    + (useColors ? '%c ' : ' ')
-    + '+' + exports.humanize(this.diff);
-
-  if (!useColors) return args;
-
-  var c = 'color: ' + this.color;
-  args = [args[0], c, 'color: inherit'].concat(Array.prototype.slice.call(args, 1));
-
-  // the final "%c" is somewhat tricky, because there could be other
-  // arguments passed either before or after the %c, so we need to
-  // figure out the correct index to insert the CSS into
-  var index = 0;
-  var lastC = 0;
-  args[0].replace(/%[a-z%]/g, function(match) {
-    if ('%%' === match) return;
-    index++;
-    if ('%c' === match) {
-      // we only are interested in the *last* %c
-      // (the user may have provided their own)
-      lastC = index;
-    }
-  });
-
-  args.splice(lastC, 0, c);
-  return args;
-}
-
-/**
- * Invokes `console.log()` when available.
- * No-op when `console.log` is not a "function".
- *
- * @api public
- */
-
-function log() {
-  // this hackery is required for IE8/9, where
-  // the `console.log` function doesn't have 'apply'
-  return 'object' === typeof console
-    && console.log
-    && Function.prototype.apply.call(console.log, console, arguments);
-}
-
-/**
- * Save `namespaces`.
- *
- * @param {String} namespaces
- * @api private
- */
-
-function save(namespaces) {
-  try {
-    if (null == namespaces) {
-      exports.storage.removeItem('debug');
-    } else {
-      exports.storage.debug = namespaces;
-    }
-  } catch(e) {}
-}
-
-/**
- * Load `namespaces`.
- *
- * @return {String} returns the previously persisted debug modes
- * @api private
- */
-
-function load() {
-  var r;
-  try {
-    return exports.storage.debug;
-  } catch(e) {}
-
-  // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
-  if (typeof process !== 'undefined' && 'env' in process) {
-    return process.env.DEBUG;
-  }
-}
-
-/**
- * Enable namespaces listed in `localStorage.debug` initially.
- */
-
-exports.enable(load());
-
-/**
- * Localstorage attempts to return the localstorage.
- *
- * This is necessary because safari throws
- * when a user disables cookies/localstorage
- * and you attempt to access it.
- *
- * @return {LocalStorage}
- * @api private
- */
-
-function localstorage(){
-  try {
-    return window.localStorage;
-  } catch (e) {}
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)))
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(process) {
-/**
- * This is the web browser implementation of `debug()`.
- *
- * Expose `debug()` as the module.
- */
-
-exports = module.exports = __webpack_require__(56);
-exports.log = log;
-exports.formatArgs = formatArgs;
-exports.save = save;
-exports.load = load;
-exports.useColors = useColors;
-exports.storage = 'undefined' != typeof chrome
-               && 'undefined' != typeof chrome.storage
-                  ? chrome.storage.local
-                  : localstorage();
-
-/**
- * Colors.
- */
-
-exports.colors = [
-  'lightseagreen',
-  'forestgreen',
-  'goldenrod',
-  'dodgerblue',
-  'darkorchid',
-  'crimson'
-];
-
-/**
- * Currently only WebKit-based Web Inspectors, Firefox >= v31,
- * and the Firebug extension (any Firefox version) are known
- * to support "%c" CSS customizations.
- *
- * TODO: add a `localStorage` variable to explicitly enable/disable colors
- */
-
-function useColors() {
-  // is webkit? http://stackoverflow.com/a/16459606/376773
-  // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
-  return (typeof document !== 'undefined' && 'WebkitAppearance' in document.documentElement.style) ||
-    // is firebug? http://stackoverflow.com/a/398120/376773
-    (window.console && (console.firebug || (console.exception && console.table))) ||
-    // is firefox >= v31?
-    // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
-    (navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31);
-}
-
-/**
- * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
- */
-
-exports.formatters.j = function(v) {
-  try {
-    return JSON.stringify(v);
-  } catch (err) {
-    return '[UnexpectedJSONParseError]: ' + err.message;
-  }
-};
-
-
-/**
- * Colorize log arguments if enabled.
- *
- * @api public
- */
-
-function formatArgs() {
-  var args = arguments;
-  var useColors = this.useColors;
-
-  args[0] = (useColors ? '%c' : '')
-    + this.namespace
-    + (useColors ? ' %c' : ' ')
-    + args[0]
-    + (useColors ? '%c ' : ' ')
-    + '+' + exports.humanize(this.diff);
-
-  if (!useColors) return args;
-
-  var c = 'color: ' + this.color;
-  args = [args[0], c, 'color: inherit'].concat(Array.prototype.slice.call(args, 1));
-
-  // the final "%c" is somewhat tricky, because there could be other
-  // arguments passed either before or after the %c, so we need to
-  // figure out the correct index to insert the CSS into
-  var index = 0;
-  var lastC = 0;
-  args[0].replace(/%[a-z%]/g, function(match) {
-    if ('%%' === match) return;
-    index++;
-    if ('%c' === match) {
-      // we only are interested in the *last* %c
-      // (the user may have provided their own)
-      lastC = index;
-    }
-  });
-
-  args.splice(lastC, 0, c);
-  return args;
-}
-
-/**
- * Invokes `console.log()` when available.
- * No-op when `console.log` is not a "function".
- *
- * @api public
- */
-
-function log() {
-  // this hackery is required for IE8/9, where
-  // the `console.log` function doesn't have 'apply'
-  return 'object' === typeof console
-    && console.log
-    && Function.prototype.apply.call(console.log, console, arguments);
-}
-
-/**
- * Save `namespaces`.
- *
- * @param {String} namespaces
- * @api private
- */
-
-function save(namespaces) {
-  try {
-    if (null == namespaces) {
-      exports.storage.removeItem('debug');
-    } else {
-      exports.storage.debug = namespaces;
-    }
-  } catch(e) {}
-}
-
-/**
- * Load `namespaces`.
- *
- * @return {String} returns the previously persisted debug modes
- * @api private
- */
-
-function load() {
-  var r;
-  try {
-    return exports.storage.debug;
-  } catch(e) {}
-
-  // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
-  if (typeof process !== 'undefined' && 'env' in process) {
-    return process.env.DEBUG;
-  }
-}
-
-/**
- * Enable namespaces listed in `localStorage.debug` initially.
- */
-
-exports.enable(load());
-
-/**
- * Localstorage attempts to return the localstorage.
- *
- * This is necessary because safari throws
- * when a user disables cookies/localstorage
- * and you attempt to access it.
- *
- * @return {LocalStorage}
- * @api private
- */
-
-function localstorage(){
-  try {
-    return window.localStorage;
-  } catch (e) {}
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)))
-
-/***/ }),
 /* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-const applyStyles = ($elem, styles) => {
-  Object.keys(styles).forEach(key => {
-    $elem.style[key] = styles[key]
-  })
-  return $elem
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = applyStyles;
-
-
-
-/***/ }),
-/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-var parser = __webpack_require__(2);
-var Emitter = __webpack_require__(11);
+var parser = __webpack_require__(1);
+var Emitter = __webpack_require__(10);
 
 /**
  * Module exports.
@@ -1408,12 +1393,12 @@ Transport.prototype.onClose = function () {
 
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {// browser shim for xmlhttprequest module
 
-var hasCORS = __webpack_require__(51);
+var hasCORS = __webpack_require__(50);
 
 module.exports = function (opts) {
   var xdomain = opts.xdomain;
@@ -1452,7 +1437,7 @@ module.exports = function (opts) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1621,7 +1606,7 @@ Emitter.prototype.hasListeners = function(event){
 
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports) {
 
 /**
@@ -1664,7 +1649,7 @@ exports.decode = function(qs){
 
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1672,11 +1657,11 @@ exports.decode = function(qs){
  * Module dependencies.
  */
 
-var debug = __webpack_require__(58)('socket.io-parser');
-var json = __webpack_require__(52);
-var Emitter = __webpack_require__(41);
-var binary = __webpack_require__(57);
-var isBuf = __webpack_require__(28);
+var debug = __webpack_require__(57)('socket.io-parser');
+var json = __webpack_require__(51);
+var Emitter = __webpack_require__(40);
+var binary = __webpack_require__(56);
+var isBuf = __webpack_require__(29);
 
 /**
  * Protocol version.
@@ -2074,11 +2059,71 @@ function error(data){
 
 
 /***/ }),
+/* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__socket__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__keys__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__players__ = __webpack_require__(2);
+
+
+
+
+
+const ChatBar = {
+  $bar: document.getElementById('chatbar'),
+  $input: document.getElementById('chatbar-input'),
+  init () {
+    this.launch = this.launch.bind(this)
+    this.hide = this.hide.bind(this)
+  },
+
+  launch () {
+    this.$bar.classList.add('active')
+    this.$input.focus()
+    __WEBPACK_IMPORTED_MODULE_2__keys__["a" /* default */].pausePropogation()
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__socket__["a" /* ensureConnect */])()
+      .then(socket => {
+        socket.emit('player_force_stop', socket.id)
+      })
+    __WEBPACK_IMPORTED_MODULE_3__players__["a" /* default */].user.forceStop()
+    __WEBPACK_IMPORTED_MODULE_3__players__["a" /* default */].user.removeKeyEvents()
+    __WEBPACK_IMPORTED_MODULE_2__keys__["a" /* default */].keydown('ENTER', this.submit.bind(this))
+    __WEBPACK_IMPORTED_MODULE_2__keys__["a" /* default */].keydown('ESCAPE', this.hide.bind(this))
+  },
+
+  submit () {
+    const value = this.$input.value.trim().replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+    if (!value) this.hide()
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__socket__["a" /* ensureConnect */])()
+    .then(socket => {
+      socket.emit('player_chat', socket.id, value)
+    })
+    this.hide()
+    __WEBPACK_IMPORTED_MODULE_3__players__["a" /* default */].user.say(value)
+  },
+
+  hide () {
+    this.$input.blur()
+    this.$input.value = ''
+    this.$bar.classList.remove('active')
+    __WEBPACK_IMPORTED_MODULE_3__players__["a" /* default */].user.addKeyEvents()
+
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = ChatBar;
+
+
+/***/ }),
 /* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__players__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__players__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__socket__ = __webpack_require__(3);
 
 
@@ -2115,7 +2160,7 @@ const colors16 =  ['black', 'gray', 'maroon', 'red', 'green', 'lime', 'olive', '
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__note__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__note__ = __webpack_require__(33);
 
 
 /* harmony default export */ __webpack_exports__["a"] = {
@@ -2150,6 +2195,21 @@ const colors16 =  ['black', 'gray', 'maroon', 'red', 'green', 'lime', 'olive', '
 
 /***/ }),
 /* 16 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const applyStyles = ($elem, styles) => {
+  Object.keys(styles).forEach(key => {
+    $elem.style[key] = styles[key]
+  })
+  return $elem
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = applyStyles;
+
+
+
+/***/ }),
+/* 17 */
 /***/ (function(module, exports) {
 
 /**
@@ -2178,17 +2238,17 @@ module.exports = function(obj, fn){
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
  * Module dependencies
  */
 
-var XMLHttpRequest = __webpack_require__(10);
-var XHR = __webpack_require__(46);
-var JSONP = __webpack_require__(45);
-var websocket = __webpack_require__(47);
+var XMLHttpRequest = __webpack_require__(9);
+var XHR = __webpack_require__(45);
+var JSONP = __webpack_require__(44);
+var websocket = __webpack_require__(46);
 
 /**
  * Export transports.
@@ -2238,19 +2298,19 @@ function polling (opts) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-var Transport = __webpack_require__(9);
-var parseqs = __webpack_require__(12);
-var parser = __webpack_require__(2);
-var inherit = __webpack_require__(5);
-var yeast = __webpack_require__(30);
-var debug = __webpack_require__(6)('engine.io-client:polling');
+var Transport = __webpack_require__(8);
+var parseqs = __webpack_require__(11);
+var parser = __webpack_require__(1);
+var inherit = __webpack_require__(4);
+var yeast = __webpack_require__(31);
+var debug = __webpack_require__(5)('engine.io-client:polling');
 
 /**
  * Module exports.
@@ -2263,7 +2323,7 @@ module.exports = Polling;
  */
 
 var hasXHR2 = (function () {
-  var XMLHttpRequest = __webpack_require__(10);
+  var XMLHttpRequest = __webpack_require__(9);
   var xhr = new XMLHttpRequest({ xdomain: false });
   return null != xhr.responseType;
 })();
@@ -2489,7 +2549,7 @@ Polling.prototype.uri = function () {
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -2497,7 +2557,7 @@ Polling.prototype.uri = function () {
  * Module requirements.
  */
 
-var isArray = __webpack_require__(50);
+var isArray = __webpack_require__(49);
 
 /**
  * Module exports.
@@ -2555,7 +2615,7 @@ function hasBinary(data) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports) {
 
 
@@ -2570,7 +2630,7 @@ module.exports = function(arr, obj){
 };
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
 /**
@@ -2725,7 +2785,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports) {
 
 /**
@@ -2770,7 +2830,7 @@ module.exports = function parseuri(str) {
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -2956,7 +3016,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -2964,15 +3024,15 @@ process.umask = function() { return 0; };
  * Module dependencies.
  */
 
-var eio = __webpack_require__(42);
-var Socket = __webpack_require__(26);
-var Emitter = __webpack_require__(27);
-var parser = __webpack_require__(13);
-var on = __webpack_require__(25);
-var bind = __webpack_require__(16);
-var debug = __webpack_require__(7)('socket.io-client:manager');
-var indexOf = __webpack_require__(20);
-var Backoff = __webpack_require__(38);
+var eio = __webpack_require__(41);
+var Socket = __webpack_require__(27);
+var Emitter = __webpack_require__(28);
+var parser = __webpack_require__(12);
+var on = __webpack_require__(26);
+var bind = __webpack_require__(17);
+var debug = __webpack_require__(6)('socket.io-client:manager');
+var indexOf = __webpack_require__(21);
+var Backoff = __webpack_require__(37);
 
 /**
  * IE6+ hasOwnProperty
@@ -3522,7 +3582,7 @@ Manager.prototype.onreconnect = function () {
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports) {
 
 
@@ -3552,7 +3612,7 @@ function on (obj, ev, fn) {
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -3560,13 +3620,13 @@ function on (obj, ev, fn) {
  * Module dependencies.
  */
 
-var parser = __webpack_require__(13);
-var Emitter = __webpack_require__(27);
-var toArray = __webpack_require__(62);
-var on = __webpack_require__(25);
-var bind = __webpack_require__(16);
-var debug = __webpack_require__(7)('socket.io-client:socket');
-var hasBin = __webpack_require__(19);
+var parser = __webpack_require__(12);
+var Emitter = __webpack_require__(28);
+var toArray = __webpack_require__(61);
+var on = __webpack_require__(26);
+var bind = __webpack_require__(17);
+var debug = __webpack_require__(6)('socket.io-client:socket');
+var hasBin = __webpack_require__(20);
 
 /**
  * Module exports.
@@ -3977,7 +4037,7 @@ Socket.prototype.compress = function (compress) {
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -4146,7 +4206,7 @@ Emitter.prototype.hasListeners = function(event){
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -4166,7 +4226,7 @@ function isBuf(obj) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -4194,7 +4254,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4269,72 +4329,12 @@ module.exports = yeast;
 
 
 /***/ }),
-/* 31 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__socket__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__keys__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__players__ = __webpack_require__(1);
-
-
-
-
-
-const ChatBar = {
-  $bar: document.getElementById('chatbar'),
-  $input: document.getElementById('chatbar-input'),
-  init () {
-    this.launch = this.launch.bind(this)
-    this.hide = this.hide.bind(this)
-  },
-
-  launch () {
-    this.$bar.classList.add('active')
-    this.$input.focus()
-    __WEBPACK_IMPORTED_MODULE_2__keys__["a" /* default */].pausePropogation()
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__socket__["a" /* ensureConnect */])()
-      .then(socket => {
-        socket.emit('player_force_stop', socket.id)
-      })
-    __WEBPACK_IMPORTED_MODULE_3__players__["a" /* default */].user.forceStop()
-    __WEBPACK_IMPORTED_MODULE_3__players__["a" /* default */].user.removeKeyEvents()
-    __WEBPACK_IMPORTED_MODULE_2__keys__["a" /* default */].keydown('ENTER', this.submit.bind(this))
-    __WEBPACK_IMPORTED_MODULE_2__keys__["a" /* default */].keydown('ESCAPE', this.hide.bind(this))
-  },
-
-  submit () {
-    const value = this.$input.value.trim().replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-    if (!value) this.hide()
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__socket__["a" /* ensureConnect */])()
-    .then(socket => {
-      socket.emit('player_chat', socket.id, value)
-    })
-    this.hide()
-    __WEBPACK_IMPORTED_MODULE_3__players__["a" /* default */].user.say(value)
-  },
-
-  hide () {
-    this.$input.blur()
-    this.$input.value = ''
-    this.$bar.classList.remove('active')
-    __WEBPACK_IMPORTED_MODULE_3__players__["a" /* default */].user.addKeyEvents()
-
-  }
-}
-
-/* harmony default export */ __webpack_exports__["a"] = ChatBar;
-
-
-/***/ }),
 /* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__player_physics__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__players__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__player_physics__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__players__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__piano__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__socket__ = __webpack_require__(3);
 
@@ -4468,69 +4468,9 @@ function fixedTimestepRuntimeLoop () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__socket__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__keys__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__players__ = __webpack_require__(1);
-
-
-
-
-
-const ChatBar = {
-  $bar: document.getElementById('chatbar'),
-  $input: document.getElementById('chatbar-input'),
-  init () {
-    this.launch = this.launch.bind(this)
-    this.hide = this.hide.bind(this)
-  },
-
-  launch () {
-    this.$bar.classList.add('active')
-    this.$input.focus()
-    __WEBPACK_IMPORTED_MODULE_2__keys__["a" /* default */].pausePropogation()
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__socket__["a" /* ensureConnect */])()
-      .then(socket => {
-        socket.emit('player_force_stop', socket.id)
-      })
-    __WEBPACK_IMPORTED_MODULE_3__players__["a" /* default */].user.forceStop()
-    __WEBPACK_IMPORTED_MODULE_3__players__["a" /* default */].user.removeKeyEvents()
-    __WEBPACK_IMPORTED_MODULE_2__keys__["a" /* default */].keydown('ENTER', this.submit.bind(this))
-    __WEBPACK_IMPORTED_MODULE_2__keys__["a" /* default */].keydown('ESCAPE', this.hide.bind(this))
-  },
-
-  submit () {
-    const value = this.$input.value.trim().replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-    if (!value) this.hide()
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__socket__["a" /* ensureConnect */])()
-    .then(socket => {
-      socket.emit('player_chat', socket.id, value)
-    })
-    this.hide()
-    __WEBPACK_IMPORTED_MODULE_3__players__["a" /* default */].user.say(value)
-  },
-
-  hide () {
-    this.$input.blur()
-    this.$input.value = ''
-    this.$bar.classList.remove('active')
-    __WEBPACK_IMPORTED_MODULE_3__players__["a" /* default */].user.addKeyEvents()
-
-  }
-}
-
-/* harmony default export */ __webpack_exports__["a"] = ChatBar;
-
-
-/***/ }),
-/* 34 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_tone__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_tone__ = __webpack_require__(62);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_tone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_tone__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__players__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__players__ = __webpack_require__(2);
 
 
 
@@ -4631,15 +4571,15 @@ class Note {
 
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__keys__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__players__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Chatbar__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__keys__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__players__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChatBar__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__socket__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__util__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__util__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__colorGrid__ = __webpack_require__(14);
 
 
@@ -4758,7 +4698,7 @@ class Player {
           }
         })
       })
-      __WEBPACK_IMPORTED_MODULE_0__keys__["a" /* default */].keydown('ENTER', () => __WEBPACK_IMPORTED_MODULE_2__Chatbar__["a" /* default */].launch())
+      __WEBPACK_IMPORTED_MODULE_0__keys__["a" /* default */].keydown('ENTER', () => __WEBPACK_IMPORTED_MODULE_2__ChatBar__["a" /* default */].launch())
     }
   }
 
@@ -4934,7 +4874,7 @@ class Player {
 
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports) {
 
 module.exports = after
@@ -4968,7 +4908,7 @@ function noop() {}
 
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports) {
 
 /**
@@ -5003,7 +4943,7 @@ module.exports = function(arraybuffer, start, end) {
 
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports) {
 
 
@@ -5094,7 +5034,7 @@ Backoff.prototype.setJitter = function(jitter){
 
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports) {
 
 /*
@@ -5167,7 +5107,7 @@ Backoff.prototype.setJitter = function(jitter){
 
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -5270,7 +5210,7 @@ module.exports = (function() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports) {
 
 
@@ -5440,19 +5380,19 @@ Emitter.prototype.hasListeners = function(event){
 
 
 /***/ }),
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+module.exports = __webpack_require__(42);
+
+
+/***/ }),
 /* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 module.exports = __webpack_require__(43);
-
-
-/***/ }),
-/* 43 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-module.exports = __webpack_require__(44);
 
 /**
  * Exports parser
@@ -5460,25 +5400,25 @@ module.exports = __webpack_require__(44);
  * @api public
  *
  */
-module.exports.parser = __webpack_require__(2);
+module.exports.parser = __webpack_require__(1);
 
 
 /***/ }),
-/* 44 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
  * Module dependencies.
  */
 
-var transports = __webpack_require__(17);
-var Emitter = __webpack_require__(11);
-var debug = __webpack_require__(6)('engine.io-client:socket');
-var index = __webpack_require__(20);
-var parser = __webpack_require__(2);
-var parseuri = __webpack_require__(22);
-var parsejson = __webpack_require__(53);
-var parseqs = __webpack_require__(12);
+var transports = __webpack_require__(18);
+var Emitter = __webpack_require__(10);
+var debug = __webpack_require__(5)('engine.io-client:socket');
+var index = __webpack_require__(21);
+var parser = __webpack_require__(1);
+var parseuri = __webpack_require__(23);
+var parsejson = __webpack_require__(52);
+var parseqs = __webpack_require__(11);
 
 /**
  * Module exports.
@@ -5610,9 +5550,9 @@ Socket.protocol = parser.protocol; // this is an int
  */
 
 Socket.Socket = Socket;
-Socket.Transport = __webpack_require__(9);
-Socket.transports = __webpack_require__(17);
-Socket.parser = __webpack_require__(2);
+Socket.Transport = __webpack_require__(8);
+Socket.transports = __webpack_require__(18);
+Socket.parser = __webpack_require__(1);
 
 /**
  * Creates transport of the given type.
@@ -6209,7 +6149,7 @@ Socket.prototype.filterUpgrades = function (upgrades) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 45 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -6217,8 +6157,8 @@ Socket.prototype.filterUpgrades = function (upgrades) {
  * Module requirements.
  */
 
-var Polling = __webpack_require__(18);
-var inherit = __webpack_require__(5);
+var Polling = __webpack_require__(19);
+var inherit = __webpack_require__(4);
 
 /**
  * Module exports.
@@ -6447,18 +6387,18 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 46 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
  * Module requirements.
  */
 
-var XMLHttpRequest = __webpack_require__(10);
-var Polling = __webpack_require__(18);
-var Emitter = __webpack_require__(11);
-var inherit = __webpack_require__(5);
-var debug = __webpack_require__(6)('engine.io-client:polling-xhr');
+var XMLHttpRequest = __webpack_require__(9);
+var Polling = __webpack_require__(19);
+var Emitter = __webpack_require__(10);
+var inherit = __webpack_require__(4);
+var debug = __webpack_require__(5)('engine.io-client:polling-xhr');
 
 /**
  * Module exports.
@@ -6878,24 +6818,24 @@ function unloadHandler () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 47 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
  * Module dependencies.
  */
 
-var Transport = __webpack_require__(9);
-var parser = __webpack_require__(2);
-var parseqs = __webpack_require__(12);
-var inherit = __webpack_require__(5);
-var yeast = __webpack_require__(30);
-var debug = __webpack_require__(6)('engine.io-client:websocket');
+var Transport = __webpack_require__(8);
+var parser = __webpack_require__(1);
+var parseqs = __webpack_require__(11);
+var inherit = __webpack_require__(4);
+var yeast = __webpack_require__(31);
+var debug = __webpack_require__(5)('engine.io-client:websocket');
 var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
 var NodeWebSocket;
 if (typeof window === 'undefined') {
   try {
-    NodeWebSocket = __webpack_require__(66);
+    NodeWebSocket = __webpack_require__(65);
   } catch (e) { }
 }
 
@@ -7170,7 +7110,7 @@ WS.prototype.check = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 48 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -7186,7 +7126,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(21);
+exports.humanize = __webpack_require__(22);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -7376,7 +7316,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 49 */
+/* 48 */
 /***/ (function(module, exports) {
 
 
@@ -7401,7 +7341,7 @@ module.exports = Object.keys || function keys (obj){
 
 
 /***/ }),
-/* 50 */
+/* 49 */
 /***/ (function(module, exports) {
 
 module.exports = Array.isArray || function (arr) {
@@ -7410,7 +7350,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 51 */
+/* 50 */
 /***/ (function(module, exports) {
 
 
@@ -7433,14 +7373,14 @@ try {
 
 
 /***/ }),
-/* 52 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! JSON v3.3.2 | http://bestiejs.github.io/json3 | Copyright 2012-2014, Kit Cambridge | http://kit.mit-license.org */
 ;(function () {
   // Detect the `define` function exposed by asynchronous module loaders. The
   // strict `define` check is necessary for compatibility with `r.js`.
-  var isLoader = "function" === "function" && __webpack_require__(64);
+  var isLoader = "function" === "function" && __webpack_require__(63);
 
   // A set of types used to distinguish objects from primitives.
   var objectTypes = {
@@ -8340,10 +8280,10 @@ try {
   }
 }).call(this);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(29)(module), __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)(module), __webpack_require__(0)))
 
 /***/ }),
-/* 53 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -8381,7 +8321,7 @@ module.exports = function parsejson(data) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 54 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -8389,10 +8329,10 @@ module.exports = function parsejson(data) {
  * Module dependencies.
  */
 
-var url = __webpack_require__(55);
-var parser = __webpack_require__(13);
-var Manager = __webpack_require__(24);
-var debug = __webpack_require__(7)('socket.io-client');
+var url = __webpack_require__(54);
+var parser = __webpack_require__(12);
+var Manager = __webpack_require__(25);
+var debug = __webpack_require__(6)('socket.io-client');
 
 /**
  * Module exports.
@@ -8491,12 +8431,12 @@ exports.connect = lookup;
  * @api public
  */
 
-exports.Manager = __webpack_require__(24);
-exports.Socket = __webpack_require__(26);
+exports.Manager = __webpack_require__(25);
+exports.Socket = __webpack_require__(27);
 
 
 /***/ }),
-/* 55 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -8504,8 +8444,8 @@ exports.Socket = __webpack_require__(26);
  * Module dependencies.
  */
 
-var parseuri = __webpack_require__(22);
-var debug = __webpack_require__(7)('socket.io-client:url');
+var parseuri = __webpack_require__(23);
+var debug = __webpack_require__(6)('socket.io-client:url');
 
 /**
  * Module exports.
@@ -8578,7 +8518,7 @@ function url (uri, loc) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 56 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -8594,7 +8534,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(21);
+exports.humanize = __webpack_require__(22);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -8784,7 +8724,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 57 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/*global Blob,File*/
@@ -8793,8 +8733,8 @@ function coerce(val) {
  * Module requirements
  */
 
-var isArray = __webpack_require__(60);
-var isBuf = __webpack_require__(28);
+var isArray = __webpack_require__(59);
+var isBuf = __webpack_require__(29);
 
 /**
  * Replaces every Buffer | ArrayBuffer in packet with a numbered placeholder.
@@ -8932,7 +8872,7 @@ exports.removeBlobs = function(data, callback) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 58 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -8942,7 +8882,7 @@ exports.removeBlobs = function(data, callback) {
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(59);
+exports = module.exports = __webpack_require__(58);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -9106,7 +9046,7 @@ function localstorage(){
 
 
 /***/ }),
-/* 59 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -9122,7 +9062,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(61);
+exports.humanize = __webpack_require__(60);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -9309,7 +9249,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 60 */
+/* 59 */
 /***/ (function(module, exports) {
 
 module.exports = Array.isArray || function (arr) {
@@ -9318,7 +9258,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 61 */
+/* 60 */
 /***/ (function(module, exports) {
 
 /**
@@ -9449,7 +9389,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 62 */
+/* 61 */
 /***/ (function(module, exports) {
 
 module.exports = toArray
@@ -9468,7 +9408,7 @@ function toArray(list, index) {
 
 
 /***/ }),
-/* 63 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;(function(root, factory){
@@ -31688,7 +31628,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;(function(root, factory){
 }));
 
 /***/ }),
-/* 64 */
+/* 63 */
 /***/ (function(module, exports) {
 
 /* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
@@ -31697,7 +31637,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ }),
-/* 65 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/wtf8 v1.0.0 by @mathias */
@@ -31934,22 +31874,22 @@ module.exports = __webpack_amd_options__;
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(29)(module), __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)(module), __webpack_require__(0)))
 
 /***/ }),
-/* 66 */
+/* 65 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 67 */
+/* 66 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__keys__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ChatBar__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__keys__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ChatBar__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__piano__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__runtime__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__colorGrid__ = __webpack_require__(14);
