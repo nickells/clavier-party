@@ -31,12 +31,14 @@ class Note {
     }
     this.create()
     this.isPlaying = false
+    this.needsUpdating = true
   }
 
   play () {
     if (!this.isPlaying) {
       this.isPlaying = true
       this.synth.triggerAttackRelease(this.note, '8n')
+      this.needsUpdating = true
     }
   }
 
@@ -50,12 +52,18 @@ class Note {
 
   render () {
     if (this.isPlaying) {
-      this.$elem.style.borderTopColor = this.whoIsSittingOnMe.color
-      this.$elem.style.boxShadow = `0px -20px 50px ${this.whoIsSittingOnMe.color}`
-      this.$elem.classList.add('playing')
+      if (this.needsUpdating){
+        this.$elem.style.borderTopColor = this.whoIsSittingOnMe.color
+        this.$elem.style.boxShadow = `0px -20px 50px ${this.whoIsSittingOnMe.color}`
+        this.$elem.classList.add('playing')
+        this.needsUpdating = false
+      }
     } else {
-      this.$elem.style.boxShadow = `0px 0px 0px black`
-      this.$elem.classList.remove('playing')
+      if (this.needsUpdating) {
+        this.$elem.style.boxShadow = `0px 0px 0px black`
+        this.$elem.classList.remove('playing')
+        this.needsUpdating = false
+      }
     }
   }
 
@@ -80,6 +88,7 @@ class Note {
     else {
       if (this.isPlaying) {
         this.isPlaying = false
+        this.needsUpdating = true
       }
     }
   }
