@@ -8,7 +8,7 @@ class Note {
         'oscillator': {
           'detune': 0,
           'type': 'custom',
-          'partials': [2, 1, 2, 2],
+          'partials': [10, 0, 1, 0],
           'phase': 0,
           'volume': 0
         },
@@ -19,7 +19,7 @@ class Note {
           'release': 1
         },
         'portamento': 0.01,
-        'volume': -20
+        'volume': -10
       }
     this.note = name
     this.synth = new Tone.Synth(config).toMaster()
@@ -36,6 +36,7 @@ class Note {
   play () {
     if (!this.isPlaying) {
       this.synth.triggerAttackRelease(this.note, '8n')
+      this.$elem.style.borderTopColor = this.whoIsSittingOnMe.color
       this.$elem.classList.add('playing')
       this.isPlaying = true
     }
@@ -61,6 +62,7 @@ class Note {
           // // player is straddling the note at the beginning
           // || (player.position.x + player.size > this.position.start && player.position.x < this.position.start)
         ) {
+          this.whoIsSittingOnMe = player
           return true
         }
       }

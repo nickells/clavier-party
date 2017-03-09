@@ -3,6 +3,7 @@ import Players from './players'
 import ChatBar from './Chatbar'
 import { ensureConnect } from './socket'
 import { applyStyles } from './util'
+import colorGrid from './colorGrid'
 
 const METER = 30
 const GRAVITY = METER * 9.8 * 6 // very exagerated gravity (6x)
@@ -20,9 +21,15 @@ function bound (x, min, max) {
 }
 
 class Player {
-  constructor (id, position) {
+  constructor (id, position, color) {
     this.id = id
     this.isUser = id === 0
+
+    this.position = position || {
+      x: Math.floor(Math.random() * 100),
+      y: 0
+    }
+    this.color = color || colorGrid.pickRandom()
 
     if (this.isUser) {
       ensureConnect()
@@ -50,6 +57,7 @@ class Player {
         })
         socket.on('player_color_change', (id, color) => {
           if (id === this.id) {
+            this.color = color
             this.$player.style.backgroundColor = color
           }
         })
@@ -57,10 +65,6 @@ class Player {
     }
 
 
-    this.position = position || {
-      x: Math.floor(Math.random() * 100),
-      y: 0
-    }
 
     this.inputs = {
 
@@ -81,11 +85,6 @@ class Player {
     this.addKeyEvents()
     this.create()
     
-    if (this.isUser) {
-      this.$player.addEventListener('click', (e) => {
-
-      })
-    }
 
     this.$chats = []
 
@@ -126,7 +125,7 @@ class Player {
       backgroundColor: this.color,
       width: `${this.size}px`,
       height: `${this.size}px`,
-      border: '1px solid black',
+      border: '1px solid grey',
       position: 'absolute',
       cursor: this.isUser ? 'pointer' : 'default',
       left: 0,

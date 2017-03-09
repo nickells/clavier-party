@@ -21,17 +21,18 @@ io.on('connection', (socket) => {
   })
 
   // A player is sending us its position to tell a new player
-  socket.on('gather_position', (id, position, reconcilingFor) => {
+  socket.on('gather_position', (id, position, reconcilingFor, color) => {
 
     // Update position of player inside Players collection
     Players.forEach(player => {
       if (player.id === id){
         player.position = position
+        player.color = color
       }
     })
 
     // Send the new player the position of the player
-    socket.broadcast.to(reconcilingFor).emit('reconcile', id, position )
+    socket.broadcast.to(reconcilingFor).emit('reconcile', id, position, color )
   })
 
   socket.on('player_input', (id, input, bool) => {

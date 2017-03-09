@@ -11,23 +11,22 @@ Players.add(player1)
 
 
 ensureConnect().then(socket => {
-  console.log('self connected. i am', socket.id)
   // New player has connected
   socket.on('player_connected', (player)=> {
     // Add new player to local players reference
-    Players.add(new Player(player.id))
+    Players.add(new Player(player.id, player.position, player.color))
     const thisId = socket.id
     const thisPosition = player1.position
     const reconcilingFor = player.id
 
     // Gather own position and send to new player
-    socket.emit('gather_position', thisId, thisPosition, reconcilingFor)
+    socket.emit('gather_position', thisId, thisPosition, reconcilingFor, player1.color)
   })
 
-  // a player is telling us its position
-  socket.on('reconcile', (id, position) => {
+  // a player is telling us its position & color
+  socket.on('reconcile', (id, position, color) => {
     if (!Players.containsId(id)){
-      Players.add(new Player(id, position))
+      Players.add(new Player(id, position, color))
     } else {
       Players.getOne(id).position = position
     }
@@ -46,7 +45,7 @@ ensureConnect().then(socket => {
 
   setInterval(() => {
     Players.getOthers().forEach(player => {
-      socket.emit('gather_position', socket.id, Players.user.position, player.id)
+      socket.emit('gather_position', socket.id, Players.user.position, player.id, Players.user.color)
     })
   }, 500)
 })
