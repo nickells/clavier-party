@@ -47,7 +47,7 @@ class Note {
     this.$elem = document.createElement('div')
     this.$elem.classList.add('piano-note')
     const isBlackNote = this.note.indexOf('#') !== -1
-    if (isBlackNote) this.$elem.style.backgroundColor = 'black'
+    if (isBlackNote) this.$elem.classList.add('is-black')
     this.$container.appendChild(this.$elem)
   }
 
