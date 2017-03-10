@@ -2103,6 +2103,7 @@ const ChatBar = {
       socket.emit('player_chat', socket.id, value)
     })
     this.hide()
+    console.log(__WEBPACK_IMPORTED_MODULE_3__players__["a" /* default */].user)
     __WEBPACK_IMPORTED_MODULE_3__players__["a" /* default */].user.say(value)
   },
 
@@ -4722,8 +4723,19 @@ class Player {
 
   }
 
+  spectateActivate() {
+    this.isSpectating = true
+    this.destroy()
+  }
+
+  spectateDeactivate() {
+    this.isSpectating = false
+    this.create()
+  }
+
 
   update (step) {
+    if (this.isSpectating) return
     const wasLeft = this.velocityX < 0
     const wasRight = this.velocityX > 0
     const inputLeft = this.inputs.left || this.inputs.A
@@ -4794,10 +4806,16 @@ class Player {
   render (time) {
     if (this.$chats) {
       this.$chats.forEach($chat => {
-        $chat.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
+        if (!this.isSpectating){
+          $chat.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
+        } else {
+          $chat.style.transform = 'translate(0px, -15px)'
+        }
       })
     }
-    
+
+    if (this.isSpectating) return
+
     // to do: make this smarter
     // if (!this.hasMoved) return
     this.$player.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
@@ -4861,7 +4879,8 @@ class Player {
     const $chat = document.createElement('p')
     $chat.classList.add('chatText')
     this.$chats.push($chat)
-    this.$player.parentNode.insertBefore($chat, this.$player)
+    if (!this.isSpectating) this.$player.parentNode.insertBefore($chat, this.$player)
+    else document.body.appendChild($chat)
     $chat.innerHTML = val
     setTimeout(() => {
       $chat.remove()
@@ -31893,11 +31912,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__piano__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__runtime__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__colorGrid__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__spectatorMode__ = __webpack_require__(67);
 
 
 
 
 
+
+
+__WEBPACK_IMPORTED_MODULE_5__spectatorMode__["a" /* default */].init()
+
+window.testOn = __WEBPACK_IMPORTED_MODULE_5__spectatorMode__["a" /* default */].activate
+window.testOff = __WEBPACK_IMPORTED_MODULE_5__spectatorMode__["a" /* default */].deActivate
 
 __WEBPACK_IMPORTED_MODULE_2__piano__["a" /* default */].init()
 __WEBPACK_IMPORTED_MODULE_0__keys__["a" /* default */].init()
@@ -31906,6 +31932,33 @@ __WEBPACK_IMPORTED_MODULE_4__colorGrid__["a" /* default */].init()
 
 
 __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__runtime__["a" /* default */])().runtime()
+
+
+/***/ }),
+/* 67 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__players__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__player_physics__ = __webpack_require__(34);
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = {
+  spectators: [],
+  init () {
+    this.activate = this.activate.bind(this)
+  },
+  activate (id = 0) {
+    this.active = true
+    __WEBPACK_IMPORTED_MODULE_0__players__["a" /* default */].getOne(id).spectateActivate()
+    this.spectators.push(__WEBPACK_IMPORTED_MODULE_0__players__["a" /* default */].getOne(id))
+  },
+  deActivate (id = 0) {
+    __WEBPACK_IMPORTED_MODULE_0__players__["a" /* default */].getOne(id).spectateDeactivate()
+    this.spectators.splice(this.spectators.indexOf(__WEBPACK_IMPORTED_MODULE_0__players__["a" /* default */].getOne(id)), 1)
+  }
+};
 
 
 /***/ })

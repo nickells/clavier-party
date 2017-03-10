@@ -139,8 +139,19 @@ class Player {
 
   }
 
+  spectateActivate() {
+    this.isSpectating = true
+    this.destroy()
+  }
+
+  spectateDeactivate() {
+    this.isSpectating = false
+    this.create()
+  }
+
 
   update (step) {
+    if (this.isSpectating) return
     const wasLeft = this.velocityX < 0
     const wasRight = this.velocityX > 0
     const inputLeft = this.inputs.left || this.inputs.A
@@ -211,10 +222,16 @@ class Player {
   render (time) {
     if (this.$chats) {
       this.$chats.forEach($chat => {
-        $chat.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
+        if (!this.isSpectating){
+          $chat.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
+        } else {
+          $chat.style.transform = 'translate(0px, -15px)'
+        }
       })
     }
-    
+
+    if (this.isSpectating) return
+
     // to do: make this smarter
     // if (!this.hasMoved) return
     this.$player.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
@@ -278,7 +295,8 @@ class Player {
     const $chat = document.createElement('p')
     $chat.classList.add('chatText')
     this.$chats.push($chat)
-    this.$player.parentNode.insertBefore($chat, this.$player)
+    if (!this.isSpectating) this.$player.parentNode.insertBefore($chat, this.$player)
+    else document.body.appendChild($chat)
     $chat.innerHTML = val
     setTimeout(() => {
       $chat.remove()
