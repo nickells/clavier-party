@@ -8,7 +8,7 @@ import spectatorMode from './spectatorMode'
 spectatorMode.init()
 
 window.testOn = spectatorMode.activate
-window.testOff = spectatorMode.deActivate
+window.testOff = spectatorMode.deactivate
 
 Piano.init()
 Keys.init()

@@ -4,6 +4,7 @@ import ChatBar from './ChatBar'
 import { ensureConnect } from './socket'
 import { applyStyles } from './util'
 import colorGrid from './colorGrid'
+import spectatorMode from './spectatorMode'
 
 const METER = 30
 const GRAVITY = METER * 9.8 * 6 // very exagerated gravity (6x)
@@ -13,6 +14,8 @@ const HORIZONTAL_ACCEL = MAXDX * 2 // horizontal acceleration -  take 1/2 second
 const FRICTION = MAXDX * 6 // horizontal friction  -  take 1/6 second to stop from maxdx
 const JUMP = METER * 1500 //
 const CONTAINER_SIZE = 1000
+const MAX_IDLE_TICKS = 300
+// const MAX_IDLE_TICKS = 3600
 
 const COLLISION = true
 
@@ -21,7 +24,7 @@ function bound (x, min, max) {
 }
 
 class Player {
-  constructor (id, position, color) {
+  constructor (id, position, color, isSpectating) {
     this.id = id
     this.isUser = id === 0
 
@@ -31,7 +34,10 @@ class Player {
     }
     this.color = color || colorGrid.pickRandom()
 
+    this.isSpectating = isSpectating || false
     this.isFirstRender = true
+    this.collidable = true
+    this.didNotInputCount = 0
 
     if (this.isUser) {
       ensureConnect()
@@ -66,13 +72,13 @@ class Player {
       })
     }
 
-
-
     this.inputs = {
 
     }
 
     this.destroy = this.destroy.bind(this)
+    this.spectateActivate = this.spectateActivate.bind(this)
+    this.spectateDeactivate = this.spectateDeactivate.bind(this)
     this.getEdges = this.getEdges.bind(this)
 
     // Movement stuff
@@ -87,9 +93,7 @@ class Player {
     this.addKeyEvents()
     this.create()
 
-
     this.$chats = []
-
   }
 
   addKeyEvents () {
@@ -115,7 +119,7 @@ class Player {
           }
         })
       })
-      Keys.keydown('ENTER', () => ChatBar.launch())
+      Keys.keydown('ENTER', () => !this.isSpectating && ChatBar.launch())
     }
   }
 
@@ -136,19 +140,23 @@ class Player {
     applyStyles(this.$player, styles)
 
     document.getElementById('game-container').appendChild(this.$player)
-
   }
 
-  spectateActivate() {
+  spectateActivate () {
     this.isSpectating = true
+    // in case we are playing a note
+    this.position.y += 10
+
+    // ghost mode
+    this.collidable = false
     this.destroy()
   }
 
-  spectateDeactivate() {
+  spectateDeactivate () {
     this.isSpectating = false
+    this.collidable = true
     this.create()
   }
-
 
   update (step) {
     if (this.isSpectating) return
@@ -159,6 +167,14 @@ class Player {
     const inputUp = this.inputs.up || this.inputs.W
     this.accelerationX = 0
     this.accelerationY = GRAVITY
+
+    const didNotInput = this.isUser && !(inputLeft || inputRight || inputUp)
+    if (didNotInput) this.didNotInputCount ++
+    if (this.didNotInputCount === MAX_IDLE_TICKS) {
+      spectatorMode.activatePlayer(this.id)
+      spectatorMode.alert()
+      this.didNotInputCount = 0
+    }
 
     if (inputLeft) {
       this.accelerationX = this.accelerationX - HORIZONTAL_ACCEL     // player wants to go left
@@ -202,7 +218,7 @@ class Player {
     }
 
     if (this.velocityX > 0) {
-      if (this.position.x >= (1000 - this.size)){
+      if (this.position.x >= (1000 - this.size)) {
         this.position.x = 1000 - this.size
         this.velocityX = 0
       }
@@ -216,13 +232,13 @@ class Player {
     this.falling = this.position.y < 0
 
     this.hasMoved = this.isFirstRender ? true : this.lastPosition && (this.lastPosition.x !== this.position.x || this.lastPosition.y !== this.position.y)
-    this.lastPosition = Object.assign({}, this.position )
+    this.lastPosition = Object.assign({}, this.position)
   }
 
   render (time) {
     if (this.$chats) {
       this.$chats.forEach($chat => {
-        if (!this.isSpectating){
+        if (!this.isSpectating) {
           $chat.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
         } else {
           $chat.style.transform = 'translate(0px, -15px)'
@@ -241,7 +257,7 @@ class Player {
   isColliding () {
     let thisEdges = this.getEdges()
     const sittingOnSomeone = Players.get().some(otherPlayer => {
-      if (otherPlayer.id === this.id) return false
+      if (otherPlayer.id === this.id || !otherPlayer.collidable) return false
       let otherEdges = otherPlayer.getEdges()
       let colliding = (
         (thisEdges.topLeft.x >= otherEdges.topLeft.x && thisEdges.topLeft.x <= otherEdges.topRight.x) ||
@@ -295,8 +311,7 @@ class Player {
     const $chat = document.createElement('p')
     $chat.classList.add('chatText')
     this.$chats.push($chat)
-    if (!this.isSpectating) this.$player.parentNode.insertBefore($chat, this.$player)
-    else document.body.appendChild($chat)
+    this.$player.parentNode.insertBefore($chat, this.$player)
     $chat.innerHTML = val
     setTimeout(() => {
       $chat.remove()

@@ -53,8 +53,8 @@ class Note {
   render () {
     if (this.isPlaying) {
       if (this.needsUpdating){
-        this.$elem.style.borderTopColor = this.whoIsSittingOnMe.color
-        this.$elem.style.boxShadow = `0px -20px 50px ${this.whoIsSittingOnMe.color}`
+        this.$elem.style.borderTopColor = this.whoWasLastSittingOnMe.color
+        this.$elem.style.boxShadow = `0px -20px 50px ${this.whoWasLastSittingOnMe.color}`
         this.$elem.classList.add('playing')
         this.needsUpdating = false
       }
@@ -79,7 +79,7 @@ class Note {
           // // player is straddling the note at the beginning
           // || (player.position.x + player.size > this.position.start && player.position.x < this.position.start)
         ) {
-          this.whoIsSittingOnMe = player
+          this.whoWasLastSittingOnMe = player
           return true
         }
       }

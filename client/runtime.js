@@ -34,9 +34,9 @@ ensureConnect().then(socket => {
   })
 
   socket.on('update_position', (id, player) => {
-    const {position, color, velocityX, velocityY, accelerationX, accelerationY, jumping, falling} = player
+    const { position, color, velocityX, velocityY, accelerationX, accelerationY, jumping, falling, isSpectating } = player
     const updatedPlayer = Players.getOne(id)
-    if (!Players.getOne(id)) Players.add(new Player(id, position, color))
+    if (!Players.getOne(id)) Players.add(new Player(id, position, color, isSpectating))
     else {
       // updatedPlayer.hasMoved = true
       if (updatedPlayer.position.x !== position.x || updatedPlayer.position.y !== position.y) {
@@ -50,6 +50,7 @@ ensureConnect().then(socket => {
       updatedPlayer.accelerationY = accelerationY
       updatedPlayer.jumping = jumping
       updatedPlayer.falling = falling
+      updatedPlayer.isSpectating = isSpectating
 
     }
   })

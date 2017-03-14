@@ -130,3 +130,22 @@ body {
   transform: scale(1.2);
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
 }
+
+#alert {
+  position: absolute;
+  width: 600px;
+  left: 200px;
+  display: inline-block;
+  /*background-color: red;*/
+  /*height: 50px;*/
+  text-align: center;
+  padding: 10px;
+  color: white;
+  font-family: Monaco;
+  border: 1px solid white;
+  display: none;
+  box-sizing: border-box;
+}
+#alert.active {
+  display: inline;
+}

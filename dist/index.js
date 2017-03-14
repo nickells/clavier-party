@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 66);
+/******/ 	return __webpack_require__(__webpack_require__.s = 67);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -95,21 +95,61 @@ module.exports = g;
 
 /***/ }),
 /* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = {
+  hash: {},
+  list: [],
+  removeIndex (idx) {
+    const item = this.list[idx]
+    this.hash[item.id] = false
+    item.destroy()
+    this.list.splice(idx, 1)
+    return this.list
+  },
+
+  add (item) {
+    if (item.id === 0) this.user = item
+    this.list.push(item)
+    this.hash[item.id] = item
+  },
+
+  get () {
+    return this.list
+  },
+
+  getOne (id) {
+    return this.hash[id]
+  },
+
+  getOthers () {
+    return this.list.slice(1)
+  },
+
+  containsId (id) {
+    return this.hash[id]
+  }
+};
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
  * Module dependencies.
  */
 
-var keys = __webpack_require__(48);
-var hasBinary = __webpack_require__(20);
-var sliceBuffer = __webpack_require__(36);
-var after = __webpack_require__(35);
-var utf8 = __webpack_require__(64);
+var keys = __webpack_require__(49);
+var hasBinary = __webpack_require__(21);
+var sliceBuffer = __webpack_require__(37);
+var after = __webpack_require__(36);
+var utf8 = __webpack_require__(65);
 
 var base64encoder;
 if (global && global.ArrayBuffer) {
-  base64encoder = __webpack_require__(38);
+  base64encoder = __webpack_require__(39);
 }
 
 /**
@@ -167,7 +207,7 @@ var err = { type: 'error', data: 'parser error' };
  * Create a blob api even for blob builder when vendor prefixes exist
  */
 
-var Blob = __webpack_require__(39);
+var Blob = __webpack_require__(40);
 
 /**
  * Encodes a packet.
@@ -710,51 +750,11 @@ exports.decodePayloadAsBinary = function (data, binaryType, callback) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = {
-  hash: {},
-  list: [],
-  removeIndex (idx) {
-    const item = this.list[idx]
-    this.hash[item.id] = false
-    item.destroy()
-    this.list.splice(idx, 1)
-    return this.list
-  },
-
-  add (item) {
-    if (item.id === 0) this.user = item
-    this.list.push(item)
-    this.hash[item.id] = item
-  },
-
-  get () {
-    return this.list
-  },
-
-  getOne (id) {
-    return this.hash[id]
-  },
-
-  getOthers () {
-    return this.list.slice(1)
-  },
-
-  containsId (id) {
-    return this.hash[id]
-  }
-};
-
-
-/***/ }),
 /* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_socket_io_client__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_socket_io_client__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_socket_io_client__);
 
 const socket = __WEBPACK_IMPORTED_MODULE_0_socket_io_client___default()(window.location.host)
@@ -795,7 +795,7 @@ module.exports = function(a, b){
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(47);
+exports = module.exports = __webpack_require__(48);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -966,7 +966,7 @@ function localstorage(){
   } catch (e) {}
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25)))
 
 /***/ }),
 /* 6 */
@@ -979,7 +979,7 @@ function localstorage(){
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(55);
+exports = module.exports = __webpack_require__(56);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -1150,7 +1150,7 @@ function localstorage(){
   } catch (e) {}
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25)))
 
 /***/ }),
 /* 7 */
@@ -1237,7 +1237,7 @@ const Keys = {
  * Module dependencies.
  */
 
-var parser = __webpack_require__(1);
+var parser = __webpack_require__(2);
 var Emitter = __webpack_require__(10);
 
 /**
@@ -1398,7 +1398,7 @@ Transport.prototype.onClose = function () {
 
 /* WEBPACK VAR INJECTION */(function(global) {// browser shim for xmlhttprequest module
 
-var hasCORS = __webpack_require__(50);
+var hasCORS = __webpack_require__(51);
 
 module.exports = function (opts) {
   var xdomain = opts.xdomain;
@@ -1657,11 +1657,11 @@ exports.decode = function(qs){
  * Module dependencies.
  */
 
-var debug = __webpack_require__(57)('socket.io-parser');
-var json = __webpack_require__(51);
-var Emitter = __webpack_require__(40);
-var binary = __webpack_require__(56);
-var isBuf = __webpack_require__(29);
+var debug = __webpack_require__(58)('socket.io-parser');
+var json = __webpack_require__(52);
+var Emitter = __webpack_require__(41);
+var binary = __webpack_require__(57);
+var isBuf = __webpack_require__(30);
 
 /**
  * Protocol version.
@@ -2064,9 +2064,9 @@ function error(data){
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__socket__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__keys__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__players__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__players__ = __webpack_require__(1);
 
 
 
@@ -2103,7 +2103,6 @@ const ChatBar = {
       socket.emit('player_chat', socket.id, value)
     })
     this.hide()
-    console.log(__WEBPACK_IMPORTED_MODULE_3__players__["a" /* default */].user)
     __WEBPACK_IMPORTED_MODULE_3__players__["a" /* default */].user.say(value)
   },
 
@@ -2124,7 +2123,7 @@ const ChatBar = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__players__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__players__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__socket__ = __webpack_require__(3);
 
 
@@ -2161,7 +2160,7 @@ const colors16 =  ['black', 'gray', 'maroon', 'red', 'green', 'lime', 'olive', '
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__note__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__note__ = __webpack_require__(35);
 
 
 /* harmony default export */ __webpack_exports__["a"] = {
@@ -2199,6 +2198,343 @@ const colors16 =  ['black', 'gray', 'maroon', 'red', 'green', 'lime', 'olive', '
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__keys__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__players__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChatBar__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__socket__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__util__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__colorGrid__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__spectatorMode__ = __webpack_require__(34);
+
+
+
+
+
+
+
+
+const METER = 30
+const GRAVITY = METER * 9.8 * 6 // very exagerated gravity (6x)
+const MAXDX = METER * 20 // max horizontal speed (20 tiles per second)
+const MAXDY = METER * 60 // max vertical speed(60 tiles per second)
+const HORIZONTAL_ACCEL = MAXDX * 2 // horizontal acceleration -  take 1/2 second to reach maxdx
+const FRICTION = MAXDX * 6 // horizontal friction  -  take 1/6 second to stop from maxdx
+const JUMP = METER * 1500 //
+const CONTAINER_SIZE = 1000
+const MAX_IDLE_TICKS = 300
+// const MAX_IDLE_TICKS = 3600
+
+const COLLISION = true
+
+function bound (x, min, max) {
+  return Math.max(min, Math.min(max, x))
+}
+
+class Player {
+  constructor (id, position, color, isSpectating) {
+    this.id = id
+    this.isUser = id === 0
+
+    this.position = position || {
+      x: Math.floor(Math.random() * 800),
+      y: 0
+    }
+    this.color = color || __WEBPACK_IMPORTED_MODULE_5__colorGrid__["a" /* default */].pickRandom()
+
+    this.isSpectating = isSpectating || false
+    this.isFirstRender = true
+    this.collidable = true
+    this.didNotInputCount = 0
+
+    if (this.isUser) {
+      __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__socket__["a" /* ensureConnect */])()
+      .then((socket) => {
+        socket.emit('player_connected', this)
+      })
+    } else {
+      __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__socket__["a" /* ensureConnect */])()
+      .then((socket) => {
+        socket.on('player_input', (id, input, on) => {
+          if (id === this.id) {
+            this.inputs[input] = on
+          }
+        })
+
+        socket.on('player_chat', (id, chat) => {
+          if (id === this.id) {
+            this.say(chat)
+          }
+        })
+        socket.on('player_force_stop', (id) => {
+          if (id === this.id) {
+            this.forceStop()
+          }
+        })
+        socket.on('player_color_change', (id, color) => {
+          if (id === this.id) {
+            this.color = color
+            this.$player.style.backgroundColor = color
+          }
+        })
+      })
+    }
+
+    this.inputs = {
+
+    }
+
+    this.destroy = this.destroy.bind(this)
+    this.spectateActivate = this.spectateActivate.bind(this)
+    this.spectateDeactivate = this.spectateDeactivate.bind(this)
+    this.getEdges = this.getEdges.bind(this)
+
+    // Movement stuff
+    this.velocityX = 0
+    this.velocityY = 0
+    this.accelerationX = 0
+    this.accelerationY = 0
+    this.jumping = false
+    this.falling = true
+    this.size = METER
+
+    this.addKeyEvents()
+    this.create()
+
+    this.$chats = []
+  }
+
+  addKeyEvents () {
+    if (this.isUser) {
+      const directions = ['left', 'right', 'up']
+      directions.forEach(direction => {
+        __WEBPACK_IMPORTED_MODULE_0__keys__["a" /* default */].keydown(direction, () => {
+          this.inputs[direction] = true
+          if (this.isUser) {
+            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__socket__["a" /* ensureConnect */])()
+            .then(socket => {
+              socket.emit('player_input', this.id, direction, true)
+            })
+          }
+        })
+        __WEBPACK_IMPORTED_MODULE_0__keys__["a" /* default */].keyup(direction, () => {
+          this.inputs[direction] = false
+          if (this.isUser) {
+            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__socket__["a" /* ensureConnect */])()
+              .then(socket => {
+                socket.emit('player_input', this.id, direction, false)
+              })
+          }
+        })
+      })
+      __WEBPACK_IMPORTED_MODULE_0__keys__["a" /* default */].keydown('ENTER', () => !this.isSpectating && __WEBPACK_IMPORTED_MODULE_2__ChatBar__["a" /* default */].launch())
+    }
+  }
+
+  create () {
+    this.$player = document.createElement('div')
+    const styles = {
+      display: 'inline-block',
+      boxSizing: 'border-box',
+      backgroundColor: this.color,
+      width: `${this.size}px`,
+      height: `${this.size}px`,
+      position: 'absolute',
+      cursor: this.isUser ? 'pointer' : 'default',
+      left: 0,
+      bottom: 0,
+      transition: 'background-color 200ms'
+    }
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__util__["a" /* applyStyles */])(this.$player, styles)
+
+    document.getElementById('game-container').appendChild(this.$player)
+  }
+
+  spectateActivate () {
+    this.isSpectating = true
+    // in case we are playing a note
+    this.position.y += 10
+
+    // ghost mode
+    this.collidable = false
+    this.destroy()
+  }
+
+  spectateDeactivate () {
+    this.isSpectating = false
+    this.collidable = true
+    this.create()
+  }
+
+  update (step) {
+    if (this.isSpectating) return
+    const wasLeft = this.velocityX < 0
+    const wasRight = this.velocityX > 0
+    const inputLeft = this.inputs.left || this.inputs.A
+    const inputRight = this.inputs.right || this.inputs.D
+    const inputUp = this.inputs.up || this.inputs.W
+    this.accelerationX = 0
+    this.accelerationY = GRAVITY
+
+    const didNotInput = this.isUser && !(inputLeft || inputRight || inputUp)
+    if (didNotInput) this.didNotInputCount ++
+    if (this.didNotInputCount === MAX_IDLE_TICKS) {
+      __WEBPACK_IMPORTED_MODULE_6__spectatorMode__["a" /* default */].activatePlayer(this.id)
+      __WEBPACK_IMPORTED_MODULE_6__spectatorMode__["a" /* default */].alert()
+      this.didNotInputCount = 0
+    }
+
+    if (inputLeft) {
+      this.accelerationX = this.accelerationX - HORIZONTAL_ACCEL     // player wants to go left
+    } else if (wasLeft) {
+      this.accelerationX = this.accelerationX + FRICTION  // player was going left, but not any more
+    }
+
+    if (inputRight) {
+      this.accelerationX = this.accelerationX + HORIZONTAL_ACCEL // player wants to go right
+    } else if (wasRight) {
+      this.accelerationX = this.accelerationX - FRICTION  // player was going right, but not any more
+    }
+    if (inputUp && !this.jumping && !this.falling) {
+      this.accelerationY = this.accelerationY - JUMP // apply an instantaneous (large) vertical impulse
+      this.jumping = true
+    }
+
+    this.position.y = Math.floor(this.position.y + (step * this.velocityY))
+    this.position.x = Math.floor(this.position.x + (step * this.velocityX))
+    this.velocityX = bound(this.velocityX + (step * this.accelerationX), -MAXDX, MAXDX)
+    this.velocityY = bound(this.velocityY - (step * this.accelerationY), -MAXDY, MAXDY)
+
+    if ((wasLeft && (this.velocityX > 0)) ||
+      (wasRight && (this.velocityX < 0))) {
+      this.velocityX = 0 // clamp at zero to prevent friction from making us jiggle side to side
+    }
+
+    // don't fall through the ground, or others
+    if (this.velocityY <= 0) {
+      const isColliding = COLLISION ? this.isColliding() : false
+      if (this.position.y < 0 || isColliding) {
+        this.velocityY = 0
+        this.jumping = false
+        this.falling = false
+        if (isColliding) {
+          this.position.y = this.sittingOnWhom.getEdges().topLeft.y
+        } else {
+          this.position.y = 0
+        }
+      }
+    }
+
+    if (this.velocityX > 0) {
+      if (this.position.x >= (1000 - this.size)) {
+        this.position.x = 1000 - this.size
+        this.velocityX = 0
+      }
+    } else if (this.velocityX < 0) {
+      if (this.position.x <= 0) {
+        this.position.x = 0
+        this.velocityX = 0
+      }
+    }
+
+    this.falling = this.position.y < 0
+
+    this.hasMoved = this.isFirstRender ? true : this.lastPosition && (this.lastPosition.x !== this.position.x || this.lastPosition.y !== this.position.y)
+    this.lastPosition = Object.assign({}, this.position)
+  }
+
+  render (time) {
+    if (this.$chats) {
+      this.$chats.forEach($chat => {
+        if (!this.isSpectating) {
+          $chat.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
+        } else {
+          $chat.style.transform = 'translate(0px, -15px)'
+        }
+      })
+    }
+
+    if (this.isSpectating) return
+
+    // to do: make this smarter
+    // if (!this.hasMoved) return
+    this.$player.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
+    this.isFirstRender = false
+  }
+
+  isColliding () {
+    let thisEdges = this.getEdges()
+    const sittingOnSomeone = __WEBPACK_IMPORTED_MODULE_1__players__["a" /* default */].get().some(otherPlayer => {
+      if (otherPlayer.id === this.id || !otherPlayer.collidable) return false
+      let otherEdges = otherPlayer.getEdges()
+      let colliding = (
+        (thisEdges.topLeft.x >= otherEdges.topLeft.x && thisEdges.topLeft.x <= otherEdges.topRight.x) ||
+        (thisEdges.topRight.x <= otherEdges.topRight.x && thisEdges.topRight.x >= otherEdges.topLeft.x)
+      ) && (this.position.y <= otherEdges.topLeft.y && this.position.y > otherEdges.bottomLeft.y)
+      if (colliding) {
+        this.sittingOnWhom = otherPlayer
+      } else this.sittingOnWhom = undefined
+      return this.sittingOnWhom
+    })
+    return sittingOnSomeone
+  }
+
+  getEdges () {
+    const edges = {
+      topLeft: {
+        x: this.position.x,
+        y: this.position.y + this.size
+      },
+      topRight: {
+        x: this.position.x + this.size,
+        y: this.position.y + this.size
+      },
+      bottomLeft: {
+        x: this.position.x,
+        y: this.position.y
+      }
+    }
+    return (edges)
+  }
+
+  destroy () {
+    this.$player.remove()
+  }
+
+  forceStop () {
+    const directions = ['left', 'right', 'up']
+    directions.forEach(key => {
+      if (this.inputs[key]) this.inputs[key] = false
+    })
+  }
+
+  removeKeyEvents () {
+    if (this.isUser) {
+      const directions = ['left', 'right', 'up', 'ENTER']
+      directions.forEach(key => __WEBPACK_IMPORTED_MODULE_0__keys__["a" /* default */].removeListenerFor(key))
+    }
+  }
+
+  say (val) {
+    const $chat = document.createElement('p')
+    $chat.classList.add('chatText')
+    this.$chats.push($chat)
+    this.$player.parentNode.insertBefore($chat, this.$player)
+    $chat.innerHTML = val
+    setTimeout(() => {
+      $chat.remove()
+      this.$chats.splice(this.$chats.indexOf($chat), 1)
+    }, 2000)
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Player;
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 const applyStyles = ($elem, styles) => {
   Object.keys(styles).forEach(key => {
     $elem.style[key] = styles[key]
@@ -2210,7 +2546,7 @@ const applyStyles = ($elem, styles) => {
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports) {
 
 /**
@@ -2239,7 +2575,7 @@ module.exports = function(obj, fn){
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -2247,9 +2583,9 @@ module.exports = function(obj, fn){
  */
 
 var XMLHttpRequest = __webpack_require__(9);
-var XHR = __webpack_require__(45);
-var JSONP = __webpack_require__(44);
-var websocket = __webpack_require__(46);
+var XHR = __webpack_require__(46);
+var JSONP = __webpack_require__(45);
+var websocket = __webpack_require__(47);
 
 /**
  * Export transports.
@@ -2299,7 +2635,7 @@ function polling (opts) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -2308,9 +2644,9 @@ function polling (opts) {
 
 var Transport = __webpack_require__(8);
 var parseqs = __webpack_require__(11);
-var parser = __webpack_require__(1);
+var parser = __webpack_require__(2);
 var inherit = __webpack_require__(4);
-var yeast = __webpack_require__(31);
+var yeast = __webpack_require__(32);
 var debug = __webpack_require__(5)('engine.io-client:polling');
 
 /**
@@ -2550,7 +2886,7 @@ Polling.prototype.uri = function () {
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -2558,7 +2894,7 @@ Polling.prototype.uri = function () {
  * Module requirements.
  */
 
-var isArray = __webpack_require__(49);
+var isArray = __webpack_require__(50);
 
 /**
  * Module exports.
@@ -2616,7 +2952,7 @@ function hasBinary(data) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
 
@@ -2631,7 +2967,7 @@ module.exports = function(arr, obj){
 };
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports) {
 
 /**
@@ -2786,7 +3122,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports) {
 
 /**
@@ -2831,7 +3167,7 @@ module.exports = function parseuri(str) {
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -3017,7 +3353,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -3025,15 +3361,15 @@ process.umask = function() { return 0; };
  * Module dependencies.
  */
 
-var eio = __webpack_require__(41);
-var Socket = __webpack_require__(27);
-var Emitter = __webpack_require__(28);
+var eio = __webpack_require__(42);
+var Socket = __webpack_require__(28);
+var Emitter = __webpack_require__(29);
 var parser = __webpack_require__(12);
-var on = __webpack_require__(26);
-var bind = __webpack_require__(17);
+var on = __webpack_require__(27);
+var bind = __webpack_require__(18);
 var debug = __webpack_require__(6)('socket.io-client:manager');
-var indexOf = __webpack_require__(21);
-var Backoff = __webpack_require__(37);
+var indexOf = __webpack_require__(22);
+var Backoff = __webpack_require__(38);
 
 /**
  * IE6+ hasOwnProperty
@@ -3583,7 +3919,7 @@ Manager.prototype.onreconnect = function () {
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports) {
 
 
@@ -3613,7 +3949,7 @@ function on (obj, ev, fn) {
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -3622,12 +3958,12 @@ function on (obj, ev, fn) {
  */
 
 var parser = __webpack_require__(12);
-var Emitter = __webpack_require__(28);
-var toArray = __webpack_require__(61);
-var on = __webpack_require__(26);
-var bind = __webpack_require__(17);
+var Emitter = __webpack_require__(29);
+var toArray = __webpack_require__(62);
+var on = __webpack_require__(27);
+var bind = __webpack_require__(18);
 var debug = __webpack_require__(6)('socket.io-client:socket');
-var hasBin = __webpack_require__(20);
+var hasBin = __webpack_require__(21);
 
 /**
  * Module exports.
@@ -4038,7 +4374,7 @@ Socket.prototype.compress = function (compress) {
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -4207,7 +4543,7 @@ Emitter.prototype.hasListeners = function(event){
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -4227,7 +4563,7 @@ function isBuf(obj) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -4255,7 +4591,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4330,12 +4666,12 @@ module.exports = yeast;
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__player_physics__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__players__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__player_physics__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__players__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__piano__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__socket__ = __webpack_require__(3);
 
@@ -4374,9 +4710,9 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__socket__["a" /* ensureConnect
   })
 
   socket.on('update_position', (id, player) => {
-    const {position, color, velocityX, velocityY, accelerationX, accelerationY, jumping, falling} = player
+    const { position, color, velocityX, velocityY, accelerationX, accelerationY, jumping, falling, isSpectating } = player
     const updatedPlayer = __WEBPACK_IMPORTED_MODULE_1__players__["a" /* default */].getOne(id)
-    if (!__WEBPACK_IMPORTED_MODULE_1__players__["a" /* default */].getOne(id)) __WEBPACK_IMPORTED_MODULE_1__players__["a" /* default */].add(new __WEBPACK_IMPORTED_MODULE_0__player_physics__["a" /* default */](id, position, color))
+    if (!__WEBPACK_IMPORTED_MODULE_1__players__["a" /* default */].getOne(id)) __WEBPACK_IMPORTED_MODULE_1__players__["a" /* default */].add(new __WEBPACK_IMPORTED_MODULE_0__player_physics__["a" /* default */](id, position, color, isSpectating))
     else {
       // updatedPlayer.hasMoved = true
       if (updatedPlayer.position.x !== position.x || updatedPlayer.position.y !== position.y) {
@@ -4390,6 +4726,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__socket__["a" /* ensureConnect
       updatedPlayer.accelerationY = accelerationY
       updatedPlayer.jumping = jumping
       updatedPlayer.falling = falling
+      updatedPlayer.isSpectating = isSpectating
 
     }
   })
@@ -4465,13 +4802,79 @@ function fixedTimestepRuntimeLoop () {
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_tone__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__players__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__socket__ = __webpack_require__(3);
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = {
+  spectators: [],
+  init () {
+    this.activate = this.activate.bind(this)
+    this.deactivate = this.deactivate.bind(this)
+    
+    this.$alertBox = document.getElementById('alert')
+    this.$alertText = this.$alertBox.querySelector('#alert-text')
+    this.$button = this.$alertBox.querySelector('#alert-button')
+    this.$alertText.innerHTML = 'You have been placed in spectator mode due to inactivity'
+    this.$button.innerHTML = 'ok i\'m back'
+    this.$button.addEventListener('click', this.closeAlert.bind(this))
+
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__socket__["a" /* ensureConnect */])()
+    .then(socket => {
+      socket.on('player_spectate', (id) => {
+        console.log('spectating player', id)
+        this.activatePlayer(id)
+      })
+      socket.on('player_unspectate', (id) => {
+        this.deactivatePlayer(id)
+      })
+    })
+  },
+  activate (id = 0) {
+    this.activatePlayer(id)
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__socket__["a" /* ensureConnect */])()
+    .then(socket => {
+      socket.emit('player_spectate', socket.id)
+    })
+  },
+  activatePlayer (id = 0) {
+    __WEBPACK_IMPORTED_MODULE_0__players__["a" /* default */].getOne(id).spectateActivate()
+    this.spectators.push(__WEBPACK_IMPORTED_MODULE_0__players__["a" /* default */].getOne(id))
+  },
+  deactivate (id = 0) {
+    this.deactivatePlayer(id)
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__socket__["a" /* ensureConnect */])()
+    .then(socket => {
+      socket.emit('player_unspectate', socket.id)
+    })
+  },
+  deactivatePlayer (id = 0) {
+    __WEBPACK_IMPORTED_MODULE_0__players__["a" /* default */].getOne(id).spectateDeactivate()
+    this.spectators.splice(this.spectators.indexOf(__WEBPACK_IMPORTED_MODULE_0__players__["a" /* default */].getOne(id)), 1)
+  },
+  closeAlert () {
+    __WEBPACK_IMPORTED_MODULE_0__players__["a" /* default */].user.spectateDeactivate()
+    this.$alertBox.classList.remove('active')
+  },
+  alert () {
+    this.$alertBox.classList.add('active')
+  }
+};
+
+
+/***/ }),
+/* 35 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_tone__ = __webpack_require__(63);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_tone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_tone__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__players__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__players__ = __webpack_require__(1);
 
 
 
@@ -4527,8 +4930,8 @@ class Note {
   render () {
     if (this.isPlaying) {
       if (this.needsUpdating){
-        this.$elem.style.borderTopColor = this.whoIsSittingOnMe.color
-        this.$elem.style.boxShadow = `0px -20px 50px ${this.whoIsSittingOnMe.color}`
+        this.$elem.style.borderTopColor = this.whoWasLastSittingOnMe.color
+        this.$elem.style.boxShadow = `0px -20px 50px ${this.whoWasLastSittingOnMe.color}`
         this.$elem.classList.add('playing')
         this.needsUpdating = false
       }
@@ -4553,7 +4956,7 @@ class Note {
           // // player is straddling the note at the beginning
           // || (player.position.x + player.size > this.position.start && player.position.x < this.position.start)
         ) {
-          this.whoIsSittingOnMe = player
+          this.whoWasLastSittingOnMe = player
           return true
         }
       }
@@ -4572,328 +4975,7 @@ class Note {
 
 
 /***/ }),
-/* 34 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__keys__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__players__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChatBar__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__socket__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__util__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__colorGrid__ = __webpack_require__(14);
-
-
-
-
-
-
-
-const METER = 30
-const GRAVITY = METER * 9.8 * 6 // very exagerated gravity (6x)
-const MAXDX = METER * 20 // max horizontal speed (20 tiles per second)
-const MAXDY = METER * 60 // max vertical speed(60 tiles per second)
-const HORIZONTAL_ACCEL = MAXDX * 2 // horizontal acceleration -  take 1/2 second to reach maxdx
-const FRICTION = MAXDX * 6 // horizontal friction  -  take 1/6 second to stop from maxdx
-const JUMP = METER * 1500 //
-const CONTAINER_SIZE = 1000
-
-const COLLISION = true
-
-function bound (x, min, max) {
-  return Math.max(min, Math.min(max, x))
-}
-
-class Player {
-  constructor (id, position, color) {
-    this.id = id
-    this.isUser = id === 0
-
-    this.position = position || {
-      x: Math.floor(Math.random() * 800),
-      y: 0
-    }
-    this.color = color || __WEBPACK_IMPORTED_MODULE_5__colorGrid__["a" /* default */].pickRandom()
-
-    this.isFirstRender = true
-
-    if (this.isUser) {
-      __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__socket__["a" /* ensureConnect */])()
-      .then((socket) => {
-        socket.emit('player_connected', this)
-      })
-    } else {
-      __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__socket__["a" /* ensureConnect */])()
-      .then((socket) => {
-        socket.on('player_input', (id, input, on) => {
-          if (id === this.id) {
-            this.inputs[input] = on
-          }
-        })
-
-        socket.on('player_chat', (id, chat) => {
-          if (id === this.id) {
-            this.say(chat)
-          }
-        })
-        socket.on('player_force_stop', (id) => {
-          if (id === this.id) {
-            this.forceStop()
-          }
-        })
-        socket.on('player_color_change', (id, color) => {
-          if (id === this.id) {
-            this.color = color
-            this.$player.style.backgroundColor = color
-          }
-        })
-      })
-    }
-
-
-
-    this.inputs = {
-
-    }
-
-    this.destroy = this.destroy.bind(this)
-    this.getEdges = this.getEdges.bind(this)
-
-    // Movement stuff
-    this.velocityX = 0
-    this.velocityY = 0
-    this.accelerationX = 0
-    this.accelerationY = 0
-    this.jumping = false
-    this.falling = true
-    this.size = METER
-
-    this.addKeyEvents()
-    this.create()
-
-
-    this.$chats = []
-
-  }
-
-  addKeyEvents () {
-    if (this.isUser) {
-      const directions = ['left', 'right', 'up']
-      directions.forEach(direction => {
-        __WEBPACK_IMPORTED_MODULE_0__keys__["a" /* default */].keydown(direction, () => {
-          this.inputs[direction] = true
-          if (this.isUser) {
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__socket__["a" /* ensureConnect */])()
-            .then(socket => {
-              socket.emit('player_input', this.id, direction, true)
-            })
-          }
-        })
-        __WEBPACK_IMPORTED_MODULE_0__keys__["a" /* default */].keyup(direction, () => {
-          this.inputs[direction] = false
-          if (this.isUser) {
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__socket__["a" /* ensureConnect */])()
-              .then(socket => {
-                socket.emit('player_input', this.id, direction, false)
-              })
-          }
-        })
-      })
-      __WEBPACK_IMPORTED_MODULE_0__keys__["a" /* default */].keydown('ENTER', () => __WEBPACK_IMPORTED_MODULE_2__ChatBar__["a" /* default */].launch())
-    }
-  }
-
-  create () {
-    this.$player = document.createElement('div')
-    const styles = {
-      display: 'inline-block',
-      boxSizing: 'border-box',
-      backgroundColor: this.color,
-      width: `${this.size}px`,
-      height: `${this.size}px`,
-      position: 'absolute',
-      cursor: this.isUser ? 'pointer' : 'default',
-      left: 0,
-      bottom: 0,
-      transition: 'background-color 200ms'
-    }
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__util__["a" /* applyStyles */])(this.$player, styles)
-
-    document.getElementById('game-container').appendChild(this.$player)
-
-  }
-
-  spectateActivate() {
-    this.isSpectating = true
-    this.destroy()
-  }
-
-  spectateDeactivate() {
-    this.isSpectating = false
-    this.create()
-  }
-
-
-  update (step) {
-    if (this.isSpectating) return
-    const wasLeft = this.velocityX < 0
-    const wasRight = this.velocityX > 0
-    const inputLeft = this.inputs.left || this.inputs.A
-    const inputRight = this.inputs.right || this.inputs.D
-    const inputUp = this.inputs.up || this.inputs.W
-    this.accelerationX = 0
-    this.accelerationY = GRAVITY
-
-    if (inputLeft) {
-      this.accelerationX = this.accelerationX - HORIZONTAL_ACCEL     // player wants to go left
-    } else if (wasLeft) {
-      this.accelerationX = this.accelerationX + FRICTION  // player was going left, but not any more
-    }
-
-    if (inputRight) {
-      this.accelerationX = this.accelerationX + HORIZONTAL_ACCEL // player wants to go right
-    } else if (wasRight) {
-      this.accelerationX = this.accelerationX - FRICTION  // player was going right, but not any more
-    }
-    if (inputUp && !this.jumping && !this.falling) {
-      this.accelerationY = this.accelerationY - JUMP // apply an instantaneous (large) vertical impulse
-      this.jumping = true
-    }
-
-    this.position.y = Math.floor(this.position.y + (step * this.velocityY))
-    this.position.x = Math.floor(this.position.x + (step * this.velocityX))
-    this.velocityX = bound(this.velocityX + (step * this.accelerationX), -MAXDX, MAXDX)
-    this.velocityY = bound(this.velocityY - (step * this.accelerationY), -MAXDY, MAXDY)
-
-    if ((wasLeft && (this.velocityX > 0)) ||
-      (wasRight && (this.velocityX < 0))) {
-      this.velocityX = 0 // clamp at zero to prevent friction from making us jiggle side to side
-    }
-
-    // don't fall through the ground, or others
-    if (this.velocityY <= 0) {
-      const isColliding = COLLISION ? this.isColliding() : false
-      if (this.position.y < 0 || isColliding) {
-        this.velocityY = 0
-        this.jumping = false
-        this.falling = false
-        if (isColliding) {
-          this.position.y = this.sittingOnWhom.getEdges().topLeft.y
-        } else {
-          this.position.y = 0
-        }
-      }
-    }
-
-    if (this.velocityX > 0) {
-      if (this.position.x >= (1000 - this.size)){
-        this.position.x = 1000 - this.size
-        this.velocityX = 0
-      }
-    } else if (this.velocityX < 0) {
-      if (this.position.x <= 0) {
-        this.position.x = 0
-        this.velocityX = 0
-      }
-    }
-
-    this.falling = this.position.y < 0
-
-    this.hasMoved = this.isFirstRender ? true : this.lastPosition && (this.lastPosition.x !== this.position.x || this.lastPosition.y !== this.position.y)
-    this.lastPosition = Object.assign({}, this.position )
-  }
-
-  render (time) {
-    if (this.$chats) {
-      this.$chats.forEach($chat => {
-        if (!this.isSpectating){
-          $chat.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
-        } else {
-          $chat.style.transform = 'translate(0px, -15px)'
-        }
-      })
-    }
-
-    if (this.isSpectating) return
-
-    // to do: make this smarter
-    // if (!this.hasMoved) return
-    this.$player.style.transform = `translate(${this.position.x}px, ${-this.position.y}px)`
-    this.isFirstRender = false
-  }
-
-  isColliding () {
-    let thisEdges = this.getEdges()
-    const sittingOnSomeone = __WEBPACK_IMPORTED_MODULE_1__players__["a" /* default */].get().some(otherPlayer => {
-      if (otherPlayer.id === this.id) return false
-      let otherEdges = otherPlayer.getEdges()
-      let colliding = (
-        (thisEdges.topLeft.x >= otherEdges.topLeft.x && thisEdges.topLeft.x <= otherEdges.topRight.x) ||
-        (thisEdges.topRight.x <= otherEdges.topRight.x && thisEdges.topRight.x >= otherEdges.topLeft.x)
-      ) && (this.position.y <= otherEdges.topLeft.y && this.position.y > otherEdges.bottomLeft.y)
-      if (colliding) {
-        this.sittingOnWhom = otherPlayer
-      } else this.sittingOnWhom = undefined
-      return this.sittingOnWhom
-    })
-    return sittingOnSomeone
-  }
-
-  getEdges () {
-    const edges = {
-      topLeft: {
-        x: this.position.x,
-        y: this.position.y + this.size
-      },
-      topRight: {
-        x: this.position.x + this.size,
-        y: this.position.y + this.size
-      },
-      bottomLeft: {
-        x: this.position.x,
-        y: this.position.y
-      }
-    }
-    return (edges)
-  }
-
-  destroy () {
-    this.$player.remove()
-  }
-
-  forceStop () {
-    const directions = ['left', 'right', 'up']
-    directions.forEach(key => {
-      if (this.inputs[key]) this.inputs[key] = false
-    })
-  }
-
-  removeKeyEvents () {
-    if (this.isUser) {
-      const directions = ['left', 'right', 'up', 'ENTER']
-      directions.forEach(key => __WEBPACK_IMPORTED_MODULE_0__keys__["a" /* default */].removeListenerFor(key))
-    }
-  }
-
-  say (val) {
-    const $chat = document.createElement('p')
-    $chat.classList.add('chatText')
-    this.$chats.push($chat)
-    if (!this.isSpectating) this.$player.parentNode.insertBefore($chat, this.$player)
-    else document.body.appendChild($chat)
-    $chat.innerHTML = val
-    setTimeout(() => {
-      $chat.remove()
-      this.$chats.splice(this.$chats.indexOf($chat), 1)
-    }, 2000)
-  }
-}
-
-/* harmony default export */ __webpack_exports__["a"] = Player;
-
-
-/***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports) {
 
 module.exports = after
@@ -4927,7 +5009,7 @@ function noop() {}
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports) {
 
 /**
@@ -4962,7 +5044,7 @@ module.exports = function(arraybuffer, start, end) {
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports) {
 
 
@@ -5053,7 +5135,7 @@ Backoff.prototype.setJitter = function(jitter){
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports) {
 
 /*
@@ -5126,7 +5208,7 @@ Backoff.prototype.setJitter = function(jitter){
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -5229,7 +5311,7 @@ module.exports = (function() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports) {
 
 
@@ -5399,19 +5481,19 @@ Emitter.prototype.hasListeners = function(event){
 
 
 /***/ }),
-/* 41 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-module.exports = __webpack_require__(42);
-
-
-/***/ }),
 /* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 module.exports = __webpack_require__(43);
+
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+module.exports = __webpack_require__(44);
 
 /**
  * Exports parser
@@ -5419,24 +5501,24 @@ module.exports = __webpack_require__(43);
  * @api public
  *
  */
-module.exports.parser = __webpack_require__(1);
+module.exports.parser = __webpack_require__(2);
 
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
  * Module dependencies.
  */
 
-var transports = __webpack_require__(18);
+var transports = __webpack_require__(19);
 var Emitter = __webpack_require__(10);
 var debug = __webpack_require__(5)('engine.io-client:socket');
-var index = __webpack_require__(21);
-var parser = __webpack_require__(1);
-var parseuri = __webpack_require__(23);
-var parsejson = __webpack_require__(52);
+var index = __webpack_require__(22);
+var parser = __webpack_require__(2);
+var parseuri = __webpack_require__(24);
+var parsejson = __webpack_require__(53);
 var parseqs = __webpack_require__(11);
 
 /**
@@ -5570,8 +5652,8 @@ Socket.protocol = parser.protocol; // this is an int
 
 Socket.Socket = Socket;
 Socket.Transport = __webpack_require__(8);
-Socket.transports = __webpack_require__(18);
-Socket.parser = __webpack_require__(1);
+Socket.transports = __webpack_require__(19);
+Socket.parser = __webpack_require__(2);
 
 /**
  * Creates transport of the given type.
@@ -6168,7 +6250,7 @@ Socket.prototype.filterUpgrades = function (upgrades) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -6176,7 +6258,7 @@ Socket.prototype.filterUpgrades = function (upgrades) {
  * Module requirements.
  */
 
-var Polling = __webpack_require__(19);
+var Polling = __webpack_require__(20);
 var inherit = __webpack_require__(4);
 
 /**
@@ -6406,7 +6488,7 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -6414,7 +6496,7 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
  */
 
 var XMLHttpRequest = __webpack_require__(9);
-var Polling = __webpack_require__(19);
+var Polling = __webpack_require__(20);
 var Emitter = __webpack_require__(10);
 var inherit = __webpack_require__(4);
 var debug = __webpack_require__(5)('engine.io-client:polling-xhr');
@@ -6837,7 +6919,7 @@ function unloadHandler () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -6845,16 +6927,16 @@ function unloadHandler () {
  */
 
 var Transport = __webpack_require__(8);
-var parser = __webpack_require__(1);
+var parser = __webpack_require__(2);
 var parseqs = __webpack_require__(11);
 var inherit = __webpack_require__(4);
-var yeast = __webpack_require__(31);
+var yeast = __webpack_require__(32);
 var debug = __webpack_require__(5)('engine.io-client:websocket');
 var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
 var NodeWebSocket;
 if (typeof window === 'undefined') {
   try {
-    NodeWebSocket = __webpack_require__(65);
+    NodeWebSocket = __webpack_require__(66);
   } catch (e) { }
 }
 
@@ -7129,7 +7211,7 @@ WS.prototype.check = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -7145,7 +7227,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(22);
+exports.humanize = __webpack_require__(23);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -7335,7 +7417,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports) {
 
 
@@ -7360,7 +7442,7 @@ module.exports = Object.keys || function keys (obj){
 
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports) {
 
 module.exports = Array.isArray || function (arr) {
@@ -7369,7 +7451,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports) {
 
 
@@ -7392,14 +7474,14 @@ try {
 
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! JSON v3.3.2 | http://bestiejs.github.io/json3 | Copyright 2012-2014, Kit Cambridge | http://kit.mit-license.org */
 ;(function () {
   // Detect the `define` function exposed by asynchronous module loaders. The
   // strict `define` check is necessary for compatibility with `r.js`.
-  var isLoader = "function" === "function" && __webpack_require__(63);
+  var isLoader = "function" === "function" && __webpack_require__(64);
 
   // A set of types used to distinguish objects from primitives.
   var objectTypes = {
@@ -8299,10 +8381,10 @@ try {
   }
 }).call(this);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)(module), __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)(module), __webpack_require__(0)))
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -8340,7 +8422,7 @@ module.exports = function parsejson(data) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -8348,9 +8430,9 @@ module.exports = function parsejson(data) {
  * Module dependencies.
  */
 
-var url = __webpack_require__(54);
+var url = __webpack_require__(55);
 var parser = __webpack_require__(12);
-var Manager = __webpack_require__(25);
+var Manager = __webpack_require__(26);
 var debug = __webpack_require__(6)('socket.io-client');
 
 /**
@@ -8450,12 +8532,12 @@ exports.connect = lookup;
  * @api public
  */
 
-exports.Manager = __webpack_require__(25);
-exports.Socket = __webpack_require__(27);
+exports.Manager = __webpack_require__(26);
+exports.Socket = __webpack_require__(28);
 
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -8463,7 +8545,7 @@ exports.Socket = __webpack_require__(27);
  * Module dependencies.
  */
 
-var parseuri = __webpack_require__(23);
+var parseuri = __webpack_require__(24);
 var debug = __webpack_require__(6)('socket.io-client:url');
 
 /**
@@ -8537,7 +8619,7 @@ function url (uri, loc) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -8553,7 +8635,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(22);
+exports.humanize = __webpack_require__(23);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -8743,7 +8825,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/*global Blob,File*/
@@ -8752,8 +8834,8 @@ function coerce(val) {
  * Module requirements
  */
 
-var isArray = __webpack_require__(59);
-var isBuf = __webpack_require__(29);
+var isArray = __webpack_require__(60);
+var isBuf = __webpack_require__(30);
 
 /**
  * Replaces every Buffer | ArrayBuffer in packet with a numbered placeholder.
@@ -8891,7 +8973,7 @@ exports.removeBlobs = function(data, callback) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -8901,7 +8983,7 @@ exports.removeBlobs = function(data, callback) {
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(58);
+exports = module.exports = __webpack_require__(59);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -9065,7 +9147,7 @@ function localstorage(){
 
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -9081,7 +9163,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(60);
+exports.humanize = __webpack_require__(61);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -9268,7 +9350,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports) {
 
 module.exports = Array.isArray || function (arr) {
@@ -9277,7 +9359,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports) {
 
 /**
@@ -9408,7 +9490,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports) {
 
 module.exports = toArray
@@ -9427,7 +9509,7 @@ function toArray(list, index) {
 
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;(function(root, factory){
@@ -31647,7 +31729,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;(function(root, factory){
 }));
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports) {
 
 /* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
@@ -31656,7 +31738,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/wtf8 v1.0.0 by @mathias */
@@ -31893,16 +31975,16 @@ module.exports = __webpack_amd_options__;
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)(module), __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)(module), __webpack_require__(0)))
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -31910,9 +31992,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__keys__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ChatBar__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__piano__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__runtime__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__runtime__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__colorGrid__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__spectatorMode__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__spectatorMode__ = __webpack_require__(34);
 
 
 
@@ -31923,7 +32005,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 __WEBPACK_IMPORTED_MODULE_5__spectatorMode__["a" /* default */].init()
 
 window.testOn = __WEBPACK_IMPORTED_MODULE_5__spectatorMode__["a" /* default */].activate
-window.testOff = __WEBPACK_IMPORTED_MODULE_5__spectatorMode__["a" /* default */].deActivate
+window.testOff = __WEBPACK_IMPORTED_MODULE_5__spectatorMode__["a" /* default */].deactivate
 
 __WEBPACK_IMPORTED_MODULE_2__piano__["a" /* default */].init()
 __WEBPACK_IMPORTED_MODULE_0__keys__["a" /* default */].init()
@@ -31932,33 +32014,6 @@ __WEBPACK_IMPORTED_MODULE_4__colorGrid__["a" /* default */].init()
 
 
 __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__runtime__["a" /* default */])().runtime()
-
-
-/***/ }),
-/* 67 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__players__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__player_physics__ = __webpack_require__(34);
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = {
-  spectators: [],
-  init () {
-    this.activate = this.activate.bind(this)
-  },
-  activate (id = 0) {
-    this.active = true
-    __WEBPACK_IMPORTED_MODULE_0__players__["a" /* default */].getOne(id).spectateActivate()
-    this.spectators.push(__WEBPACK_IMPORTED_MODULE_0__players__["a" /* default */].getOne(id))
-  },
-  deActivate (id = 0) {
-    __WEBPACK_IMPORTED_MODULE_0__players__["a" /* default */].getOne(id).spectateDeactivate()
-    this.spectators.splice(this.spectators.indexOf(__WEBPACK_IMPORTED_MODULE_0__players__["a" /* default */].getOne(id)), 1)
-  }
-};
 
 
 /***/ })

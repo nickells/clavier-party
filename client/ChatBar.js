@@ -34,7 +34,6 @@ const ChatBar = {
       socket.emit('player_chat', socket.id, value)
     })
     this.hide()
-    console.log(Players.user)
     Players.user.say(value)
   },
 
