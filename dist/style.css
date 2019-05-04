@@ -130,3 +130,23 @@ body {
   transform: scale(1.2);
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
 }
+
+#start {
+  position: absolute;
+  z-index: 1;
+  font-size: 25px;
+  padding: 20px;
+  background-color: transparent;
+  color: white;
+  cursor: pointer;
+  font-family: monospace;
+  border-radius: 2px;
+}
+#start:hover {
+  color: black;
+  background-color: white;
+}
+
+body {
+  position: relative;
+}

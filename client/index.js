@@ -4,10 +4,14 @@ import Piano from './piano'
 import fixedTimestepRuntimeLoop from './runtime'
 import colorGrid from './colorGrid'
 
-Piano.init()
-Keys.init()
-ChatBar.init()
-colorGrid.init()
+const startButton = document.getElementById('start')
+startButton.addEventListener('click', () => {
+  startButton.parentNode.removeChild(startButton)
 
+  Piano.init()
+  Keys.init()
+  ChatBar.init()
+  colorGrid.init()
 
-fixedTimestepRuntimeLoop().runtime()
+  fixedTimestepRuntimeLoop().runtime()
+})

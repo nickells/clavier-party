@@ -1,41 +1,41 @@
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
 /******/ 			l: false,
 /******/ 			exports: {}
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.l = true;
-
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
+/******/
 /******/ 	// identity function for calling harmony imports with the correct context
 /******/ 	__webpack_require__.i = function(value) { return value; };
-
+/******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
@@ -46,7 +46,7 @@
 /******/ 			});
 /******/ 		}
 /******/ 	};
-
+/******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
 /******/ 	__webpack_require__.n = function(module) {
 /******/ 		var getter = module && module.__esModule ?
@@ -55,15 +55,15 @@
 /******/ 		__webpack_require__.d(getter, 'a', getter);
 /******/ 		return getter;
 /******/ 	};
-
+/******/
 /******/ 	// Object.prototype.hasOwnProperty.call
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-
+/******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-
+/******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 66);
+/******/ 	return __webpack_require__(__webpack_require__.s = 33);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -101,15 +101,15 @@ module.exports = g;
  * Module dependencies.
  */
 
-var keys = __webpack_require__(48);
+var keys = __webpack_require__(50);
 var hasBinary = __webpack_require__(20);
-var sliceBuffer = __webpack_require__(36);
-var after = __webpack_require__(35);
-var utf8 = __webpack_require__(64);
+var sliceBuffer = __webpack_require__(37);
+var after = __webpack_require__(36);
+var utf8 = __webpack_require__(65);
 
 var base64encoder;
 if (global && global.ArrayBuffer) {
-  base64encoder = __webpack_require__(38);
+  base64encoder = __webpack_require__(39);
 }
 
 /**
@@ -167,7 +167,7 @@ var err = { type: 'error', data: 'parser error' };
  * Create a blob api even for blob builder when vendor prefixes exist
  */
 
-var Blob = __webpack_require__(39);
+var Blob = __webpack_require__(40);
 
 /**
  * Encodes a packet.
@@ -714,7 +714,7 @@ exports.decodePayloadAsBinary = function (data, binaryType, callback) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = {
+/* harmony default export */ __webpack_exports__["a"] = ({
   hash: {},
   list: [],
   removeIndex (idx) {
@@ -746,7 +746,7 @@ exports.decodePayloadAsBinary = function (data, binaryType, callback) {
   containsId (id) {
     return this.hash[id]
   }
-};
+});
 
 
 /***/ }),
@@ -754,7 +754,7 @@ exports.decodePayloadAsBinary = function (data, binaryType, callback) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_socket_io_client__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_socket_io_client__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_socket_io_client__);
 
 const socket = __WEBPACK_IMPORTED_MODULE_0_socket_io_client___default()(window.location.host)
@@ -795,7 +795,7 @@ module.exports = function(a, b){
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(47);
+exports = module.exports = __webpack_require__(48);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -979,7 +979,7 @@ function localstorage(){
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(55);
+exports = module.exports = __webpack_require__(56);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -1226,7 +1226,7 @@ const Keys = {
 
 }
 
-/* harmony default export */ __webpack_exports__["a"] = Keys;
+/* harmony default export */ __webpack_exports__["a"] = (Keys);
 
 
 /***/ }),
@@ -1398,7 +1398,7 @@ Transport.prototype.onClose = function () {
 
 /* WEBPACK VAR INJECTION */(function(global) {// browser shim for xmlhttprequest module
 
-var hasCORS = __webpack_require__(50);
+var hasCORS = __webpack_require__(51);
 
 module.exports = function (opts) {
   var xdomain = opts.xdomain;
@@ -1657,10 +1657,10 @@ exports.decode = function(qs){
  * Module dependencies.
  */
 
-var debug = __webpack_require__(57)('socket.io-parser');
-var json = __webpack_require__(51);
-var Emitter = __webpack_require__(40);
-var binary = __webpack_require__(56);
+var debug = __webpack_require__(59)('socket.io-parser');
+var json = __webpack_require__(52);
+var Emitter = __webpack_require__(41);
+var binary = __webpack_require__(58);
 var isBuf = __webpack_require__(29);
 
 /**
@@ -2115,7 +2115,7 @@ const ChatBar = {
   }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = ChatBar;
+/* harmony default export */ __webpack_exports__["a"] = (ChatBar);
 
 
 /***/ }),
@@ -2130,7 +2130,7 @@ const ChatBar = {
 
 const colors16 =  ['black', 'gray', 'maroon', 'red', 'green', 'lime', 'olive', 'yellow', 'navy', 'blue', 'purple', 'fuchsia', 'teal', 'aqua', 'silver', 'white']
 
-/* harmony default export */ __webpack_exports__["a"] = {
+/* harmony default export */ __webpack_exports__["a"] = ({
   colors: colors16.filter((color, i) => i % 2 !== 0),
   init () {
     this.$grid = document.getElementById('color-grid')
@@ -2152,7 +2152,7 @@ const colors16 =  ['black', 'gray', 'maroon', 'red', 'green', 'lime', 'olive', '
   pickRandom () {
     return this.colors[Math.floor(Math.random() * this.colors.length)]
   }
-};
+});
 
 
 /***/ }),
@@ -2160,10 +2160,10 @@ const colors16 =  ['black', 'gray', 'maroon', 'red', 'green', 'lime', 'olive', '
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__note__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__note__ = __webpack_require__(34);
 
 
-/* harmony default export */ __webpack_exports__["a"] = {
+/* harmony default export */ __webpack_exports__["a"] = ({
   init (synth){
     const config = {
       // "oscillator": {
@@ -2190,7 +2190,7 @@ const colors16 =  ['black', 'gray', 'maroon', 'red', 'green', 'lime', 'olive', '
       this.notes[name] = new __WEBPACK_IMPORTED_MODULE_0__note__["a" /* default */](name, $piano, index)
     })
   }
-};
+});
 
 
 /***/ }),
@@ -2246,9 +2246,9 @@ module.exports = function(obj, fn){
  */
 
 var XMLHttpRequest = __webpack_require__(9);
-var XHR = __webpack_require__(45);
-var JSONP = __webpack_require__(44);
-var websocket = __webpack_require__(46);
+var XHR = __webpack_require__(46);
+var JSONP = __webpack_require__(45);
+var websocket = __webpack_require__(47);
 
 /**
  * Export transports.
@@ -2557,7 +2557,7 @@ Polling.prototype.uri = function () {
  * Module requirements.
  */
 
-var isArray = __webpack_require__(49);
+var isArray = __webpack_require__(22);
 
 /**
  * Module exports.
@@ -2633,155 +2633,9 @@ module.exports = function(arr, obj){
 /* 22 */
 /***/ (function(module, exports) {
 
-/**
- * Helpers.
- */
-
-var s = 1000
-var m = s * 60
-var h = m * 60
-var d = h * 24
-var y = d * 365.25
-
-/**
- * Parse or format the given `val`.
- *
- * Options:
- *
- *  - `long` verbose formatting [false]
- *
- * @param {String|Number} val
- * @param {Object} options
- * @throws {Error} throw an error if val is not a non-empty string or a number
- * @return {String|Number}
- * @api public
- */
-
-module.exports = function (val, options) {
-  options = options || {}
-  var type = typeof val
-  if (type === 'string' && val.length > 0) {
-    return parse(val)
-  } else if (type === 'number' && isNaN(val) === false) {
-    return options.long ?
-			fmtLong(val) :
-			fmtShort(val)
-  }
-  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val))
-}
-
-/**
- * Parse the given `str` and return milliseconds.
- *
- * @param {String} str
- * @return {Number}
- * @api private
- */
-
-function parse(str) {
-  str = String(str)
-  if (str.length > 10000) {
-    return
-  }
-  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str)
-  if (!match) {
-    return
-  }
-  var n = parseFloat(match[1])
-  var type = (match[2] || 'ms').toLowerCase()
-  switch (type) {
-    case 'years':
-    case 'year':
-    case 'yrs':
-    case 'yr':
-    case 'y':
-      return n * y
-    case 'days':
-    case 'day':
-    case 'd':
-      return n * d
-    case 'hours':
-    case 'hour':
-    case 'hrs':
-    case 'hr':
-    case 'h':
-      return n * h
-    case 'minutes':
-    case 'minute':
-    case 'mins':
-    case 'min':
-    case 'm':
-      return n * m
-    case 'seconds':
-    case 'second':
-    case 'secs':
-    case 'sec':
-    case 's':
-      return n * s
-    case 'milliseconds':
-    case 'millisecond':
-    case 'msecs':
-    case 'msec':
-    case 'ms':
-      return n
-    default:
-      return undefined
-  }
-}
-
-/**
- * Short format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtShort(ms) {
-  if (ms >= d) {
-    return Math.round(ms / d) + 'd'
-  }
-  if (ms >= h) {
-    return Math.round(ms / h) + 'h'
-  }
-  if (ms >= m) {
-    return Math.round(ms / m) + 'm'
-  }
-  if (ms >= s) {
-    return Math.round(ms / s) + 's'
-  }
-  return ms + 'ms'
-}
-
-/**
- * Long format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtLong(ms) {
-  return plural(ms, d, 'day') ||
-    plural(ms, h, 'hour') ||
-    plural(ms, m, 'minute') ||
-    plural(ms, s, 'second') ||
-    ms + ' ms'
-}
-
-/**
- * Pluralization helper.
- */
-
-function plural(ms, n, name) {
-  if (ms < n) {
-    return
-  }
-  if (ms < n * 1.5) {
-    return Math.floor(ms / n) + ' ' + name
-  }
-  return Math.ceil(ms / n) + ' ' + name + 's'
-}
+module.exports = Array.isArray || function (arr) {
+  return Object.prototype.toString.call(arr) == '[object Array]';
+};
 
 
 /***/ }),
@@ -3003,6 +2857,10 @@ process.off = noop;
 process.removeListener = noop;
 process.removeAllListeners = noop;
 process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
 
 process.binding = function (name) {
     throw new Error('process.binding is not supported');
@@ -3024,7 +2882,7 @@ process.umask = function() { return 0; };
  * Module dependencies.
  */
 
-var eio = __webpack_require__(41);
+var eio = __webpack_require__(42);
 var Socket = __webpack_require__(27);
 var Emitter = __webpack_require__(28);
 var parser = __webpack_require__(12);
@@ -3032,7 +2890,7 @@ var on = __webpack_require__(26);
 var bind = __webpack_require__(17);
 var debug = __webpack_require__(6)('socket.io-client:manager');
 var indexOf = __webpack_require__(21);
-var Backoff = __webpack_require__(37);
+var Backoff = __webpack_require__(38);
 
 /**
  * IE6+ hasOwnProperty
@@ -3622,7 +3480,7 @@ function on (obj, ev, fn) {
 
 var parser = __webpack_require__(12);
 var Emitter = __webpack_require__(28);
-var toArray = __webpack_require__(61);
+var toArray = __webpack_require__(62);
 var on = __webpack_require__(26);
 var bind = __webpack_require__(17);
 var debug = __webpack_require__(6)('socket.io-client:socket');
@@ -4333,7 +4191,7 @@ module.exports = yeast;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__player_physics__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__player_physics__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__players__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__piano__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__socket__ = __webpack_require__(3);
@@ -4460,7 +4318,7 @@ function fixedTimestepRuntimeLoop () {
   }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = fixedTimestepRuntimeLoop;
+/* harmony default export */ __webpack_exports__["a"] = (fixedTimestepRuntimeLoop);
 
 
 /***/ }),
@@ -4468,7 +4326,37 @@ function fixedTimestepRuntimeLoop () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_tone__ = __webpack_require__(62);
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__keys__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ChatBar__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__piano__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__runtime__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__colorGrid__ = __webpack_require__(14);
+
+
+
+
+
+
+const startButton = document.getElementById('start')
+startButton.addEventListener('click', () => {
+  startButton.parentNode.removeChild(startButton)
+
+  __WEBPACK_IMPORTED_MODULE_2__piano__["a" /* default */].init()
+  __WEBPACK_IMPORTED_MODULE_0__keys__["a" /* default */].init()
+  __WEBPACK_IMPORTED_MODULE_1__ChatBar__["a" /* default */].init()
+  __WEBPACK_IMPORTED_MODULE_4__colorGrid__["a" /* default */].init()
+
+  __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__runtime__["a" /* default */])().runtime()
+})
+
+
+/***/ }),
+/* 34 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_tone__ = __webpack_require__(63);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_tone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_tone__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__players__ = __webpack_require__(2);
 
@@ -4567,11 +4455,11 @@ class Note {
   }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = Note;
+/* harmony default export */ __webpack_exports__["a"] = (Note);
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4870,11 +4758,11 @@ class Player {
   }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = Player;
+/* harmony default export */ __webpack_exports__["a"] = (Player);
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports) {
 
 module.exports = after
@@ -4908,7 +4796,7 @@ function noop() {}
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports) {
 
 /**
@@ -4943,7 +4831,7 @@ module.exports = function(arraybuffer, start, end) {
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports) {
 
 
@@ -5034,7 +4922,7 @@ Backoff.prototype.setJitter = function(jitter){
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports) {
 
 /*
@@ -5107,7 +4995,7 @@ Backoff.prototype.setJitter = function(jitter){
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -5210,7 +5098,7 @@ module.exports = (function() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports) {
 
 
@@ -5380,19 +5268,19 @@ Emitter.prototype.hasListeners = function(event){
 
 
 /***/ }),
-/* 41 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-module.exports = __webpack_require__(42);
-
-
-/***/ }),
 /* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 module.exports = __webpack_require__(43);
+
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+module.exports = __webpack_require__(44);
 
 /**
  * Exports parser
@@ -5404,7 +5292,7 @@ module.exports.parser = __webpack_require__(1);
 
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -5417,7 +5305,7 @@ var debug = __webpack_require__(5)('engine.io-client:socket');
 var index = __webpack_require__(21);
 var parser = __webpack_require__(1);
 var parseuri = __webpack_require__(23);
-var parsejson = __webpack_require__(52);
+var parsejson = __webpack_require__(53);
 var parseqs = __webpack_require__(11);
 
 /**
@@ -6149,7 +6037,7 @@ Socket.prototype.filterUpgrades = function (upgrades) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -6387,7 +6275,7 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -6818,7 +6706,7 @@ function unloadHandler () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -6835,7 +6723,7 @@ var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
 var NodeWebSocket;
 if (typeof window === 'undefined') {
   try {
-    NodeWebSocket = __webpack_require__(65);
+    NodeWebSocket = __webpack_require__(66);
   } catch (e) { }
 }
 
@@ -7110,7 +6998,7 @@ WS.prototype.check = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -7126,7 +7014,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(22);
+exports.humanize = __webpack_require__(49);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -7316,7 +7204,162 @@ function coerce(val) {
 
 
 /***/ }),
-/* 48 */
+/* 49 */
+/***/ (function(module, exports) {
+
+/**
+ * Helpers.
+ */
+
+var s = 1000
+var m = s * 60
+var h = m * 60
+var d = h * 24
+var y = d * 365.25
+
+/**
+ * Parse or format the given `val`.
+ *
+ * Options:
+ *
+ *  - `long` verbose formatting [false]
+ *
+ * @param {String|Number} val
+ * @param {Object} options
+ * @throws {Error} throw an error if val is not a non-empty string or a number
+ * @return {String|Number}
+ * @api public
+ */
+
+module.exports = function (val, options) {
+  options = options || {}
+  var type = typeof val
+  if (type === 'string' && val.length > 0) {
+    return parse(val)
+  } else if (type === 'number' && isNaN(val) === false) {
+    return options.long ?
+			fmtLong(val) :
+			fmtShort(val)
+  }
+  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val))
+}
+
+/**
+ * Parse the given `str` and return milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function parse(str) {
+  str = String(str)
+  if (str.length > 10000) {
+    return
+  }
+  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str)
+  if (!match) {
+    return
+  }
+  var n = parseFloat(match[1])
+  var type = (match[2] || 'ms').toLowerCase()
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * y
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * d
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * h
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * m
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * s
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
+      return n
+    default:
+      return undefined
+  }
+}
+
+/**
+ * Short format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtShort(ms) {
+  if (ms >= d) {
+    return Math.round(ms / d) + 'd'
+  }
+  if (ms >= h) {
+    return Math.round(ms / h) + 'h'
+  }
+  if (ms >= m) {
+    return Math.round(ms / m) + 'm'
+  }
+  if (ms >= s) {
+    return Math.round(ms / s) + 's'
+  }
+  return ms + 'ms'
+}
+
+/**
+ * Long format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtLong(ms) {
+  return plural(ms, d, 'day') ||
+    plural(ms, h, 'hour') ||
+    plural(ms, m, 'minute') ||
+    plural(ms, s, 'second') ||
+    ms + ' ms'
+}
+
+/**
+ * Pluralization helper.
+ */
+
+function plural(ms, n, name) {
+  if (ms < n) {
+    return
+  }
+  if (ms < n * 1.5) {
+    return Math.floor(ms / n) + ' ' + name
+  }
+  return Math.ceil(ms / n) + ' ' + name + 's'
+}
+
+
+/***/ }),
+/* 50 */
 /***/ (function(module, exports) {
 
 
@@ -7341,16 +7384,7 @@ module.exports = Object.keys || function keys (obj){
 
 
 /***/ }),
-/* 49 */
-/***/ (function(module, exports) {
-
-module.exports = Array.isArray || function (arr) {
-  return Object.prototype.toString.call(arr) == '[object Array]';
-};
-
-
-/***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports) {
 
 
@@ -7373,14 +7407,14 @@ try {
 
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! JSON v3.3.2 | http://bestiejs.github.io/json3 | Copyright 2012-2014, Kit Cambridge | http://kit.mit-license.org */
 ;(function () {
   // Detect the `define` function exposed by asynchronous module loaders. The
   // strict `define` check is necessary for compatibility with `r.js`.
-  var isLoader = "function" === "function" && __webpack_require__(63);
+  var isLoader = "function" === "function" && __webpack_require__(64);
 
   // A set of types used to distinguish objects from primitives.
   var objectTypes = {
@@ -8283,7 +8317,7 @@ try {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)(module), __webpack_require__(0)))
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -8321,7 +8355,7 @@ module.exports = function parsejson(data) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -8329,7 +8363,7 @@ module.exports = function parsejson(data) {
  * Module dependencies.
  */
 
-var url = __webpack_require__(54);
+var url = __webpack_require__(55);
 var parser = __webpack_require__(12);
 var Manager = __webpack_require__(25);
 var debug = __webpack_require__(6)('socket.io-client');
@@ -8436,7 +8470,7 @@ exports.Socket = __webpack_require__(27);
 
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -8518,7 +8552,7 @@ function url (uri, loc) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -8534,7 +8568,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(22);
+exports.humanize = __webpack_require__(57);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -8724,7 +8758,162 @@ function coerce(val) {
 
 
 /***/ }),
-/* 56 */
+/* 57 */
+/***/ (function(module, exports) {
+
+/**
+ * Helpers.
+ */
+
+var s = 1000
+var m = s * 60
+var h = m * 60
+var d = h * 24
+var y = d * 365.25
+
+/**
+ * Parse or format the given `val`.
+ *
+ * Options:
+ *
+ *  - `long` verbose formatting [false]
+ *
+ * @param {String|Number} val
+ * @param {Object} options
+ * @throws {Error} throw an error if val is not a non-empty string or a number
+ * @return {String|Number}
+ * @api public
+ */
+
+module.exports = function (val, options) {
+  options = options || {}
+  var type = typeof val
+  if (type === 'string' && val.length > 0) {
+    return parse(val)
+  } else if (type === 'number' && isNaN(val) === false) {
+    return options.long ?
+			fmtLong(val) :
+			fmtShort(val)
+  }
+  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val))
+}
+
+/**
+ * Parse the given `str` and return milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function parse(str) {
+  str = String(str)
+  if (str.length > 10000) {
+    return
+  }
+  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str)
+  if (!match) {
+    return
+  }
+  var n = parseFloat(match[1])
+  var type = (match[2] || 'ms').toLowerCase()
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * y
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * d
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * h
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * m
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * s
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
+      return n
+    default:
+      return undefined
+  }
+}
+
+/**
+ * Short format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtShort(ms) {
+  if (ms >= d) {
+    return Math.round(ms / d) + 'd'
+  }
+  if (ms >= h) {
+    return Math.round(ms / h) + 'h'
+  }
+  if (ms >= m) {
+    return Math.round(ms / m) + 'm'
+  }
+  if (ms >= s) {
+    return Math.round(ms / s) + 's'
+  }
+  return ms + 'ms'
+}
+
+/**
+ * Long format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtLong(ms) {
+  return plural(ms, d, 'day') ||
+    plural(ms, h, 'hour') ||
+    plural(ms, m, 'minute') ||
+    plural(ms, s, 'second') ||
+    ms + ' ms'
+}
+
+/**
+ * Pluralization helper.
+ */
+
+function plural(ms, n, name) {
+  if (ms < n) {
+    return
+  }
+  if (ms < n * 1.5) {
+    return Math.floor(ms / n) + ' ' + name
+  }
+  return Math.ceil(ms / n) + ' ' + name + 's'
+}
+
+
+/***/ }),
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/*global Blob,File*/
@@ -8733,7 +8922,7 @@ function coerce(val) {
  * Module requirements
  */
 
-var isArray = __webpack_require__(59);
+var isArray = __webpack_require__(22);
 var isBuf = __webpack_require__(29);
 
 /**
@@ -8872,7 +9061,7 @@ exports.removeBlobs = function(data, callback) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 57 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -8882,7 +9071,7 @@ exports.removeBlobs = function(data, callback) {
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(58);
+exports = module.exports = __webpack_require__(60);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -9046,7 +9235,7 @@ function localstorage(){
 
 
 /***/ }),
-/* 58 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -9062,7 +9251,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(60);
+exports.humanize = __webpack_require__(61);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -9249,16 +9438,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 59 */
-/***/ (function(module, exports) {
-
-module.exports = Array.isArray || function (arr) {
-  return Object.prototype.toString.call(arr) == '[object Array]';
-};
-
-
-/***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports) {
 
 /**
@@ -9389,7 +9569,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports) {
 
 module.exports = toArray
@@ -9408,7 +9588,7 @@ function toArray(list, index) {
 
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;(function(root, factory){
@@ -31628,7 +31808,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;(function(root, factory){
 }));
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports) {
 
 /* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
@@ -31637,7 +31817,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/wtf8 v1.0.0 by @mathias */
@@ -31877,36 +32057,10 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)(module), __webpack_require__(0)))
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
-
-/***/ }),
-/* 66 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__keys__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ChatBar__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__piano__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__runtime__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__colorGrid__ = __webpack_require__(14);
-
-
-
-
-
-
-__WEBPACK_IMPORTED_MODULE_2__piano__["a" /* default */].init()
-__WEBPACK_IMPORTED_MODULE_0__keys__["a" /* default */].init()
-__WEBPACK_IMPORTED_MODULE_1__ChatBar__["a" /* default */].init()
-__WEBPACK_IMPORTED_MODULE_4__colorGrid__["a" /* default */].init()
-
-
-__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__runtime__["a" /* default */])().runtime()
-
 
 /***/ })
 /******/ ]);
